@@ -1,6 +1,6 @@
 # Spot Filter v0.1
 
-Spot Filter is a api to filter a list of albums, artists and musics in Spotify based in the style.
+Spot Filter is a app to filter a list of albums, artists and musics in Spotify based in the style.
 Using the Spotify's api.
 
 ## How it works
