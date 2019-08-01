@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var albumRouter = require('./album.route');
+var albumRouter = require('./album.router');
 
-/* GET home page. */
+/* GET album by Genre */
 router.use('/album', albumRouter);
 
 module.exports = router;

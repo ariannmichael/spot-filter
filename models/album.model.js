@@ -1,28 +1,46 @@
 var mongoose = require('mongoose');
 
 var albumSchema = new mongoose.Schema({ 
-    added_at: '2018-12-14T02:57:09Z',
+    added_at: {
+        type: String
+    },
     album:
         { album_type: {
             type: String,
             default: 'album'
         },
-        artists: [Array],
-        available_markets: [Array],
-        copyrights: [Array],
-        external_ids: [Object],
-        external_urls: [Object],
+        artists: {},
+        available_markets: {},
+        copyrights: {},
+        external_ids: {},
+        external_urls: {},
         genres: [],
-        href: 'https://api.spotify.com/v1/albums/6NkW7NJXhortApUff8Op9n',
-        id: '6NkW7NJXhortApUff8Op9n',
-        images: [Array],
-        label: 'Dawaiku Records',
-        name: 'Mahandini',
-        popularity: 27,
-        release_date: '2018-12-10',
-        release_date_precision: 'day',
-        total_tracks: 7,
-        tracks: [Object],
+        href: {
+            type: String
+        },
+        id: {
+            type: String
+        },
+        images: {},
+        label: {
+            type: String
+        },
+        name:{
+            type: String
+        },
+        popularity: {
+            type: Number
+        },
+        release_date:{
+            type: String
+        },
+        release_date_precision:{
+            type: String
+        },
+        total_tracks:{
+            type: Number
+        },
+        tracks: {},
         type: {
             type: String,
             default: 'album'   

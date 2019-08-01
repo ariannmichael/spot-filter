@@ -1,2 +1,2 @@
 # Spot Filter Backend
-App to filter albums, artists and musics from Spotify's api.
+App to filter albums, artists and musics from Spotify's api by genre.
