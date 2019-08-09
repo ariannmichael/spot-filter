@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 var _ = require('lodash');
 var Album = require('../models/album.model');
+var Genre = require('../models/genre.model');
+var GenreAlbum = require('../models/genre-album.model');
 
 var SpotifyWebApi = require('spotify-web-api-node');
 
@@ -12,13 +14,24 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQCfnCf2GruRZ3l8b36B7FUzOcJB3qWHWwANgtJ8_sI45Y9OBzg5qxbhkpXxHrrN8m2pSZVCiHj5tvApjUvLl7-WAHbc9LOlf82EmWb3bA7jqp9Oq18hIwVnzjbnMprQNSXkoqO8sue1Yg4npIR173nR4wHnsd5v_3crXL_7DafgLA';
+const USER_TOKEN = 'BQAhdO6eyLOyrkMJwUPoIqPH0pxQR5nHB7T1TbPWcual7VqvX3gdDFKy1dvJqwFfQp7nZtWMSwNgRjFBO0ZE7rgHc1MC04uGrTX--11lQdQZ4p_V2Wa6SJhxRmCjZ1xa8Gdcukd0kNskgs5c96Y_q247orAZ81-olkUOuhmKNs_psg';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 
-var albums = [];
+exports.getAlbumsGenre = async function(req, res) {
+    Album.find({}, (err, albums) => {})
+    .then(res => {
+        // console.log(res);
+        
+        // let genres = res.map(item => item.album.genres)
+        // let genreAlbum = new GenreAlbum({genres: genres, albumID: res.id});
+    }).catch(err => console.log('Something went wrong Genre!', err));
 
-exports.setAlbumGenre = async function(req, res) {
+    console.log(Album.albumID);
+    
+}
+
+exports.fillAlbumsByGenre = async function(req, res) {
     spotifyApi.getMySavedAlbums({
         limit: 5,
         offset:0
@@ -26,25 +39,32 @@ exports.setAlbumGenre = async function(req, res) {
     .then(data => {
         data.body.items.map(item => { 
             if(item.genres != null) {                
-                albums.push(new Album(item))               
+                let albums = new Album(item);
+
+                save(albums, req, res);
             } else {
                 getArtistGenre(item).then(genres => {
                     let newAlbum = new Album(item);
                     newAlbum.album.genres = genres;
                     
-                    albums.push(newAlbum);                    
+                    save(newAlbum, req, res);    
                 });
             }
         });        
     })
     .catch(err => console.log('Something went wrong Get Albums!', err));
-
-    setTimeout(() => {
-        console.log(albums);
-    }, 10000);
 }
 
-
+async function save(albums, req, res) {
+    albums.save((err, us) => {
+        if (err) {
+            return res.status(400).json({message: 'Something went wrong', status:400});
+        } else {
+            console.log('Albums fill');
+            return res.status(200).json({message: "Albums' set", status: 201, data: albums});
+        }
+    });
+}
 
 
 async function getArtistGenre(item) {

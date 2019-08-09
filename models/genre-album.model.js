@@ -1,10 +1,7 @@
 var mongoose = require('mongoose');
 
 var genreAlbumSchema = new mongoose.Schema({
-    genreID: {
-        type: String,
-        default: ''
-    },
+    genre: [],
     albumID: {
         type: String,
         default: ''
