@@ -14,30 +14,21 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQCEsos-B50nMhkk3lpTpHQk1kJCAxLHTfwKnPD_Qoh989BEHIsAcN-QxCpyANVf_M31-r8c4oOQrROdlaZMVTS8V54526rY3BIFerEjxjQPtr-En8k-GH9JkEG9b5BtUAK1pdRAXZ9g-TuiQtyAMVjUgKol5wYQ5ufSr2BgsB94xA';
+const USER_TOKEN = 'BQA2rpu1agurRKEfi5kIF0OVHxWCfwyDhMAE9NbHCF1JNmbnBA32h4zE3YWUhjVwCZHLifwRrTvu6tsh4M_62yzZlkj-YexdM2mVXcgIOR1hoNzrddprpbt8T4d89NyexmDHSL4hrXF8FqUnIKA_Ho88wtHOQcyK0dNCRz7hASS_uA';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 
-var albums = [];
-
 exports.getAlbumsGenre = async function(req, res) {
     Album.find({}, (err, albums) => {})
-    .then(res => {
-        // console.log(res);
-        count = 0
-        res.map(item => {
-            
-            console.log(item.album.name);
-            
+    .then(result => {
+        result.map(item => {            
+            let genres = item.album.genres;
+            let genreAlbum = new GenreAlbum({genres, albumID: item._id});
+
+
+            genreAlbum.save();
         });
-        
-
-        // let genres = res.map(item => item.album.genres)
-        // let genreAlbum = new GenreAlbum({genres: genres, albumID: res.id});
-    }).catch(err => console.log('Something went wrong Genre!', err));
-
-    console.log(Album.albumID);
-    
+    }).catch(err => console.log('Something went wrong Genre!', err));    
 }
 
 exports.fillAlbumsByGenre = async function(req, res) {    
@@ -61,29 +52,11 @@ exports.fillAlbumsByGenre = async function(req, res) {
             }
         });  
 
-        return res.end();
+        return res.status(200).send({message:"Albums filled with success"});
     })
-    // .then(result => {        
-    //     setTimeout(() => {
-    //         saveAlbum(albums, req, res);
-    //     }, 500);
-    // })
     .catch(err => console.log('Something went wrong Get Albums!', err));
 
 }
-
-// async function saveAlbum(albums, req, res) {    
-    
-//     albums.map(album => {        
-//         album.save((err, us) => {
-//             if (!err) {
-//                 // return res.status(400).json({message: 'Something went wrong', status:400});
-//                 return res.status(200).json({message: "Albums' set", status: 201, data: albums});
-//             }
-//         });
-//     })
-// }
-
 
 async function getArtistGenre(item) {
 
