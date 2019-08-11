@@ -14,21 +14,32 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQA2rpu1agurRKEfi5kIF0OVHxWCfwyDhMAE9NbHCF1JNmbnBA32h4zE3YWUhjVwCZHLifwRrTvu6tsh4M_62yzZlkj-YexdM2mVXcgIOR1hoNzrddprpbt8T4d89NyexmDHSL4hrXF8FqUnIKA_Ho88wtHOQcyK0dNCRz7hASS_uA';
+const USER_TOKEN = 'BQDeeNWwwB6qHidfOtDwo8jN824O3zE-Wv2Q2n6x71eum0guW54wgX3vw_BwDINX-lzyNoHucqDB_UiiUaE1zDNZJFthicWCOdHVab_dM0UT5QMH6Z6KVGkvEAF5gtMxzZIEZh2Tau1VjATjmXFVIj2I2BaICEp8KkofqNTNfpoTsQ';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 
 exports.getAlbumsGenre = async function(req, res) {
+    let albumsGenre = [];
+
     Album.find({}, (err, albums) => {})
     .then(result => {
-        result.map(item => {            
+        result.map(item => {
             let genres = item.album.genres;
-            let genreAlbum = new GenreAlbum({genres, albumID: item._id});
+            // let genreAlbum = new GenreAlbum({genres, albumID: item._id});
 
 
-            genreAlbum.save();
+            // genreAlbum.save();
+            
+
+            genres.map(genre => {
+                if(genre.includes('metal')) {
+                    albumsGenre.push(item);
+                }
+            })
         });
-    }).catch(err => console.log('Something went wrong Genre!', err));    
+    })
+    .then(result => res.status(200).send({message:"Albums filled with success", data: albumsGenre}))
+    .catch(err => console.log('Something went wrong Genre!', err));
 }
 
 exports.fillAlbumsByGenre = async function(req, res) {    
