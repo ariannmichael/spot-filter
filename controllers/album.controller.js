@@ -14,21 +14,46 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQA2rpu1agurRKEfi5kIF0OVHxWCfwyDhMAE9NbHCF1JNmbnBA32h4zE3YWUhjVwCZHLifwRrTvu6tsh4M_62yzZlkj-YexdM2mVXcgIOR1hoNzrddprpbt8T4d89NyexmDHSL4hrXF8FqUnIKA_Ho88wtHOQcyK0dNCRz7hASS_uA';
+const USER_TOKEN = 'BQAVLYTbSs57VgdIOYH18pkNrJftUl6BtYrsvNVxHMdT3kagbwr2nLrlCxZM_PwVae219nI8CRe-IRdMoMF5wTIK2-MtlbnnRo8nlLC5mhecmj6_EKZ9Vv0ufkMGENO33D9ssVo9HoClE6KAG7xSF7CkWXmMvo_cZjwH22p1l_NnUQ';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 
-exports.getAlbumsGenre = async function(req, res) {
+exports.getAlbumsByGenre = async function() {
+    GenreAlbum.find({}, (err, albums) => {})
+        .then(result => {
+            result.map(item => {
+                if(item.genres.includes("metalcore")) {
+                    findAlbum(item.albumID)
+                        .then(element => console.log(element))                    
+                }                
+            });
+        })
+        .catch(err => console.log('Something went wrong with Albums', err));
+}
+
+async function findAlbum(albumID) {
+    return Album.findById(albumID, (err, album) =>{
+        if(album != null) {            
+            return album;
+        } else {
+            return null;
+        }
+    });
+}
+
+exports.sortAlbumsGenre = async function(req, res) {
     Album.find({}, (err, albums) => {})
-    .then(result => {
-        result.map(item => {            
-            let genres = item.album.genres;
-            let genreAlbum = new GenreAlbum({genres, albumID: item._id});
+        .then(result => {
+            result.map(item => {            
+                let genres = item.album.genres;
+                let genreAlbum = new GenreAlbum({genres, albumID: item._id});
 
 
-            genreAlbum.save();
-        });
-    }).catch(err => console.log('Something went wrong Genre!', err));    
+                genreAlbum.save();
+            });
+
+            return res.status(200).send({message: "Albums sorted by genre"});
+        }).catch(err => console.log('Something went wrong Genre!', err));    
 }
 
 exports.fillAlbumsByGenre = async function(req, res) {    
