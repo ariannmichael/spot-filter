@@ -23,6 +23,9 @@ Show the information filtered by genre input
 
 ## Future features
 
+### Filter genre
+### Data visualization 
+### Kubernets
 ### Better search
-### Using Backend and Database to do the logic
+### User can set a better Genrer
 ### Show sub genre
