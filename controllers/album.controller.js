@@ -18,15 +18,21 @@ const USER_TOKEN = 'BQAVLYTbSs57VgdIOYH18pkNrJftUl6BtYrsvNVxHMdT3kagbwr2nLrlCxZM
 spotifyApi.setAccessToken(USER_TOKEN);
 
 
-exports.getAlbumsByGenre = async function() {
+exports.getAlbumsByGenre = async function(req, res) {
+    // genre: req.params.genre
     GenreAlbum.find({}, (err, albums) => {})
         .then(result => {
+            let albumsByGenre = [];
             result.map(item => {
                 if(item.genres.includes("metalcore")) {
                     findAlbum(item.albumID)
-                        .then(element => console.log(element))                    
+                        .then(element => albumsByGenre.push(element))
                 }                
             });
+            
+            setTimeout(() => {
+                return res.json({albumsByGenre});
+            }, 200);
         })
         .catch(err => console.log('Something went wrong with Albums', err));
 }
