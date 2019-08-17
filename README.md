@@ -25,7 +25,6 @@ Show the information filtered by genre input
 
 ### Filter genre
 ### Data visualization 
-### Kubernets
 ### Better search
 ### User can set a better Genrer
 ### Show sub genre
