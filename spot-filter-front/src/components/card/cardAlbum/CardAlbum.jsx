@@ -9,24 +9,19 @@ export default class CardAlbum extends Component {
         this.state = {
             albumName: this.props.album.name,
             artistName: this.props.album.artists[0].name,
-            albumImage: ''
+            albumImage: this.props.album.images[1].url
         }
-    }
-
-    componentDidMount() {
-        // console.log(this.props.album.artists[0].name);
-        // console.log(this.state.artistName);
-        
-        
     }
 
     render() {
         return (
-            <div>
-                Card Album
-                <div>
-                    <p>{this.state.albumName}</p>
-                    <p>{this.state.artistName}</p>
+            <div className="card-album">
+                <div className="card-album__img">
+                    <img src={this.state.albumImage} alt="Album"/>
+                </div>
+                <div className="card-album__text">
+                    <p className="card-album__text--primary">{this.state.albumName}</p>
+                    <p className="card-album__text--secondary">{this.state.artistName}</p>
                 </div>
             </div>
         );

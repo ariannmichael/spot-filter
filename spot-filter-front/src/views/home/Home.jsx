@@ -19,8 +19,6 @@ export default class Home extends Component {
         
         return (
             <div className="home--menu">
-                <h1 className="col-md-6">Spot Filter</h1>
-                <br/>
                 {genres}
             </div>
         );
