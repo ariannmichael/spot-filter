@@ -1,0 +1,15 @@
+.header {
+    background-color: #121212;
+    height: 10vh;
+    margin-top: 0;
+    position: relative;
+}
+
+.heading-name {
+    position: absolute;
+    color: #1DB954;
+    font-weight: 700;
+    font-size: 1.6rem;
+    left: 10vh;
+    top: 1.3vh;
+}
