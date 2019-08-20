@@ -1,35 +1,42 @@
-.footer {
+footer {
     background-color: #121212;
-    position: absolute;
-    bottom: -1rem;
+    clear: both;
+    margin-top: 6rem;
+    height: 8vh;
+    position: relative;    
     width: 100%;
 }
 
 .footer-name {
     font-family: 'Lato', sans-serif;
-    text-align: center;
     color: #1DB954;
     font-weight: 600;
     font-size: 1.5rem;
-    margin-top: 1rem;
+    padding-top: 1.5rem;
     margin-right: 5rem;
 }
 
-.footer-btn {
-    display: inline-block;
-    margin-left: 60%;
-    position: absolute;
-    top: 0.6rem;
+.btn-footer {
+    margin-top: 1rem;
+    margin-right: 1rem;
 }
 
-.footer-btn button {
-    margin-right: 0.3rem;
+.btn-footer button {
+    width: 10rem;
 }
 
-.footer-btn button:focus {
+.btn-footer button:focus {
     box-shadow: none;
 }
 
-.footer-btn i {
+.btn-footer i {
     color: #8C8B8B;
+}
+
+.btn-footer:hover {
+    background-color: #ffffff; 
+}
+
+.btn-footer:hover i {
+    color: #121212;
 }

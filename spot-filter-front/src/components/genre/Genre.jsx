@@ -17,7 +17,8 @@ export default class CardGenre extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/album/getAlbumsByGenre')
+        const genre = this.state.genre;        
+        axios.get('http://localhost:8080/album/getAlbumsByGenre?genre=' + genre)
             .then(res => this.setState({albumsByGenre: res.data.albumsByGenre}));
     }
 
