@@ -14,17 +14,18 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQAVLYTbSs57VgdIOYH18pkNrJftUl6BtYrsvNVxHMdT3kagbwr2nLrlCxZM_PwVae219nI8CRe-IRdMoMF5wTIK2-MtlbnnRo8nlLC5mhecmj6_EKZ9Vv0ufkMGENO33D9ssVo9HoClE6KAG7xSF7CkWXmMvo_cZjwH22p1l_NnUQ';
+const USER_TOKEN = 'BQBqZKz1WO4GCAjUuE8QuB9tMaTeiWJQcobtccRDHqHbIhUna4n7UWrkn-poZrRSFVZxjAgi9utzGYrEkXhAGYl0FKTPcXjBjMiFVLEXP0ozTg21u2n18mxPmytwchU7Zryx-xxig6pUhPKQOgHoQzaNtP_BJ9DbWmARo-ZIgXNbdQ';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 
-exports.getAlbumsByGenre = async function(req, res) {
-    // genre: req.params.genre
+exports.getAlbumsByGenre = async function(req, res) {    
     GenreAlbum.find({}, (err, albums) => {})
         .then(result => {
+            const genre = req.query.genre;
             let albumsByGenre = [];
             result.map(item => {
-                if(item.genres.includes("metalcore")) {
+                if(item.genres.includes(genre)) {
+                    
                     findAlbum(item.albumID)
                         .then(element => albumsByGenre.push(element))
                 }                
@@ -64,7 +65,7 @@ exports.sortAlbumsGenre = async function(req, res) {
 
 exports.fillAlbumsByGenre = async function(req, res) {    
     return await spotifyApi.getMySavedAlbums({
-        limit: 5,
+        limit: 50,
         offset:0
     })
     .then(data => {
