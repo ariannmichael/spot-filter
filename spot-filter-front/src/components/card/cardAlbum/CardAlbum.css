@@ -9,7 +9,11 @@
 }
 
 .card-album__text {
-    width: 10rem;
+    width: 150px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-album__text--primary {

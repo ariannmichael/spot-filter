@@ -30,7 +30,7 @@ export default class CardGenre extends Component {
     render() {
         const albums = this.state.albumsByGenre.map((album) => {            
             return(
-                <CardAlbum key={album} album={album.album}/>
+                <CardAlbum key={album.album.name} album={album.album}/>
             );
         });
 

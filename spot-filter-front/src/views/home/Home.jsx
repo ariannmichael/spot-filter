@@ -6,7 +6,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            genres: ['metalcore', 'adoracao', 'pop', 'rock', 'nu metal']
+            genres: ['metalcore', 'adoracao', 'pop', 'rock', 'nu metal', 'flamenco']
         }
     }
 

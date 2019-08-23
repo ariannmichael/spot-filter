@@ -13,7 +13,7 @@ export default class CardAlbum extends Component {
         }
     }
 
-    render() {
+    render() {        
         return (
             <div className="card-album">
                 <div className="card-album__img">
