@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 
 var genreSchema = new mongoose.Schema({
-    genres: {
-        type: []
+    genre: {
+        type: String,
+        default: ''
     }
 });
 
