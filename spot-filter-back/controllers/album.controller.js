@@ -68,19 +68,25 @@ exports.fillAlbumsByGenre = async function(req, res) {
                     let newAlbum = new Album(item);
                     newAlbum.album.genres = genres;
                     
-                    const albumName = newAlbum.album.name
+                    // save album
+                    const albumName = newAlbum.album.name;
                     Album.find({"album.name": albumName}, (err, us) => {}).then(element => {
                         if(element.length == 0) {
-                            newAlbum.save()
+                            newAlbum.save();
                         }                        
                     })
 
-
+                    //save genre
                     genres.map(genre => {
                         Genre.find({genre}, (err, us) => {}).then(element => {
                             if(element.length == 0) {
-                                let newGenre = new Genre({genre})
+                                let newGenre = new Genre({genre});
                                 newGenre.save();
+
+
+                                //save genre and album relation
+                                let newGenreAlbum = new GenreAlbum({genreID: newGenre._id, albumID: newAlbum._id});
+                                newGenreAlbum.save();
                             }
                         })
                     })
