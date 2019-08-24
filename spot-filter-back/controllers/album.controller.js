@@ -14,12 +14,11 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQAAezGEWDZ3_PWIRtTdX-uk6eXb5pov8fTn1ppuFCXaL4S4r_uRRYw5O10FFhMlDJoNrvVh_y2NxL2CHuWjwxvP4_O4OGxNQC-sgCdyZrKskZuACf9Nde5nG_ZPnNi08gFi7DwzF8ivt7UlkymtVsxOQQ51wHgsmAc-afdZw04KtA';
+const USER_TOKEN = 'BQAo1GXZPETDzwTetZXpFqtzyXHpca_ADOoHVSYr9g5EbyEft6xy2d4TNGSjr-sfUDLay66PEoAmflVbw5q8lOEuiGB1Ts9Y5GTzAM89b6z8fOwxUHfEpSH2KIsMuscT6bbabWyKYqvy_NHhXTRCFCjF46L1z8_eLs0uNsrzJI_mDg';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 var LIMIT_ALBUMS = 2;
 var OFF_SET_ALBUMS = 0;
-var FIRST_GENRE = true;
 
 exports.getAlbumsByGenre = async function(req, res) {    
     GenreAlbum.find({}, (err, albums) => {})
@@ -69,27 +68,19 @@ exports.fillAlbumsByGenre = async function(req, res) {
                     let newAlbum = new Album(item);
                     newAlbum.album.genres = genres;
                     
-                    newAlbum.save();
+                    const albumName = newAlbum.album.name
+                    Album.find({"album.name": albumName}, (err, us) => {}).then(element => {
+                        if(element.length == 0) {
+                            newAlbum.save()
+                        }                        
+                    })
+
 
                     genres.map(genre => {
-                        Genre.find({}, (err, us) => {}).then(element => {
-                            if (FIRST_GENRE) {
-                                FIRST_GENRE = false;
-                                
+                        Genre.find({genre}, (err, us) => {}).then(element => {
+                            if(element.length == 0) {
                                 let newGenre = new Genre({genre})
                                 newGenre.save();
-                            } else {
-                                element.map(res => {
-                                    if(res.genre != genre) {
-                                        console.log(res.genre, genre);
-                                        
-                                        let newGenre = new Genre({genre})
-                                        newGenre.save();
-                                        return                                        
-                                    }
-                                });
-
-                                return
                             }
                         })
                     })
