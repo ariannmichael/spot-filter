@@ -14,45 +14,31 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQAo1GXZPETDzwTetZXpFqtzyXHpca_ADOoHVSYr9g5EbyEft6xy2d4TNGSjr-sfUDLay66PEoAmflVbw5q8lOEuiGB1Ts9Y5GTzAM89b6z8fOwxUHfEpSH2KIsMuscT6bbabWyKYqvy_NHhXTRCFCjF46L1z8_eLs0uNsrzJI_mDg';
+const USER_TOKEN = 'BQDay-LLrdjxZWzTn8IdHs-MZWY_iphuxTicEl1-SvonZHboKTNEtsPaEavbxcy-kuYdjsfgNs_ZlCrKDusmnZNGcQmKFxrIpDzovhHDOQjFY8HHgvtUX-l6O00xUCLi-RRreRCzBpRhi-NKOoDFHpwkhXps0eHWexjGwn11NBVPPQ';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 var LIMIT_ALBUMS = 2;
 var OFF_SET_ALBUMS = 0;
 
 exports.getAlbumsByGenre = async function(req, res) {
+    const genreID = req.query.id;
     
-
-    // GenreAlbum.find({}, (err, albums) => {})
-    //     .then(result => {
-    //         const genre = req.query.genre;
-    //         let albumsByGenre = [];
-    //         result.map(item => {
-    //             if(item.genres.includes(genre)) {
-                    
-    //                 findAlbum(item.albumID)
-    //                     .then(element => albumsByGenre.push(element))
-    //             }                
-    //         });
+    GenreAlbum.find({genreID}, (err, genre) => {})
+        .then(genreAlbum => {            
+            const albumID = genreAlbum[0].albumID;
             
-    //         setTimeout(() => {
-    //             return res.json({albumsByGenre});
-    //         }, 200);
-    //     })
-    //     .catch(err => console.log('Something went wrong with Albums', err));
+            Album.find({_id: albumID}, (err, us) => {})
+                .then(result => {
+                    console.log(result.length);
+                    
+                    const albumsByGenre = result[0];
+                    return res.json(albumsByGenre);
+                    
+                })
+                .catch(err => console.log("Album find error", err));
+        })
+        .catch(err => console.log("Genre Album find error", err));
 }
-
-// async function findAlbum(albumID) {
-//     return Album.findById(albumID, (err, album) =>{
-//         if(album != null) {            
-//             return album;
-//         } else {
-//             return null;
-//         }
-//     });
-// }
-
-
 
 exports.fillAlbumsByGenre = async function(req, res) {    
     return await spotifyApi.getMySavedAlbums({
@@ -88,6 +74,7 @@ function saveAlbum(newAlbum) {
     // save album
     const albumName = newAlbum.album.name;
     Album.find({"album.name": albumName}, (err, us) => {}).then(element => {
+        // album doesn't exist on db
         if(element.length == 0) {
             newAlbum.save();
         }                        
@@ -98,6 +85,7 @@ function saveGenre(genres, newAlbum) {
     //save genre
     genres.map(genre => {
         Genre.find({genre}, (err, us) => {}).then(element => {
+            // genre doesn't exist on db
             if(element.length == 0) {
                 let newGenre = new Genre({genre});
                 newGenre.save();
@@ -105,6 +93,12 @@ function saveGenre(genres, newAlbum) {
 
                 //save genre and album relation
                 let newGenreAlbum = new GenreAlbum({genreID: newGenre._id, albumID: newAlbum._id});
+                newGenreAlbum.save();
+            } else {
+                // genre already exists, add a new album to genre
+                const genreID = element[0]._id;
+                
+                let newGenreAlbum = new GenreAlbum({genreID, albumID: newAlbum._id});
                 newGenreAlbum.save();
             }
         })
