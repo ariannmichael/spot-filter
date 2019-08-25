@@ -20,35 +20,37 @@ spotifyApi.setAccessToken(USER_TOKEN);
 var LIMIT_ALBUMS = 2;
 var OFF_SET_ALBUMS = 0;
 
-exports.getAlbumsByGenre = async function(req, res) {    
-    GenreAlbum.find({}, (err, albums) => {})
-        .then(result => {
-            const genre = req.query.genre;
-            let albumsByGenre = [];
-            result.map(item => {
-                if(item.genres.includes(genre)) {
+exports.getAlbumsByGenre = async function(req, res) {
+    
+
+    // GenreAlbum.find({}, (err, albums) => {})
+    //     .then(result => {
+    //         const genre = req.query.genre;
+    //         let albumsByGenre = [];
+    //         result.map(item => {
+    //             if(item.genres.includes(genre)) {
                     
-                    findAlbum(item.albumID)
-                        .then(element => albumsByGenre.push(element))
-                }                
-            });
+    //                 findAlbum(item.albumID)
+    //                     .then(element => albumsByGenre.push(element))
+    //             }                
+    //         });
             
-            setTimeout(() => {
-                return res.json({albumsByGenre});
-            }, 200);
-        })
-        .catch(err => console.log('Something went wrong with Albums', err));
+    //         setTimeout(() => {
+    //             return res.json({albumsByGenre});
+    //         }, 200);
+    //     })
+    //     .catch(err => console.log('Something went wrong with Albums', err));
 }
 
-async function findAlbum(albumID) {
-    return Album.findById(albumID, (err, album) =>{
-        if(album != null) {            
-            return album;
-        } else {
-            return null;
-        }
-    });
-}
+// async function findAlbum(albumID) {
+//     return Album.findById(albumID, (err, album) =>{
+//         if(album != null) {            
+//             return album;
+//         } else {
+//             return null;
+//         }
+//     });
+// }
 
 
 
@@ -67,37 +69,46 @@ exports.fillAlbumsByGenre = async function(req, res) {
                 getArtistGenre(item).then(genres => {
                     let newAlbum = new Album(item);
                     newAlbum.album.genres = genres;
-                    
-                    // save album
-                    const albumName = newAlbum.album.name;
-                    Album.find({"album.name": albumName}, (err, us) => {}).then(element => {
-                        if(element.length == 0) {
-                            newAlbum.save();
-                        }                        
-                    })
 
-                    //save genre
-                    genres.map(genre => {
-                        Genre.find({genre}, (err, us) => {}).then(element => {
-                            if(element.length == 0) {
-                                let newGenre = new Genre({genre});
-                                newGenre.save();
-
-
-                                //save genre and album relation
-                                let newGenreAlbum = new GenreAlbum({genreID: newGenre._id, albumID: newAlbum._id});
-                                newGenreAlbum.save();
-                            }
-                        })
-                    })
+                    saveAlbum(newAlbum);
+                    saveGenre(genres, newAlbum);
                 })
             }
         });      
         
+        //offset albums searched based on search limit
         OFF_SET_ALBUMS += LIMIT_ALBUMS;
         return res.status(200).send({message:"Albums filled with success"});
     })
     .catch(err => console.log('Something went wrong Get Albums!', err));
+}
+
+
+function saveAlbum(newAlbum) {
+    // save album
+    const albumName = newAlbum.album.name;
+    Album.find({"album.name": albumName}, (err, us) => {}).then(element => {
+        if(element.length == 0) {
+            newAlbum.save();
+        }                        
+    })
+}
+
+function saveGenre(genres, newAlbum) {
+    //save genre
+    genres.map(genre => {
+        Genre.find({genre}, (err, us) => {}).then(element => {
+            if(element.length == 0) {
+                let newGenre = new Genre({genre});
+                newGenre.save();
+
+
+                //save genre and album relation
+                let newGenreAlbum = new GenreAlbum({genreID: newGenre._id, albumID: newAlbum._id});
+                newGenreAlbum.save();
+            }
+        })
+    })
 }
 
 async function getArtistGenre(item) {
