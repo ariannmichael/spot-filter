@@ -23,21 +23,14 @@ var OFF_SET_ALBUMS = 0;
 exports.getAlbumsByGenre = async function(req, res) {
     const genreID = req.query.id;
     
-    GenreAlbum.find({genreID}, (err, genre) => {})
-        .then(genreAlbum => {            
-            const albumID = genreAlbum[0].albumID;
-            
-            Album.find({_id: albumID}, (err, us) => {})
-                .then(result => {
-                    console.log(result.length);
-                    
-                    const albumsByGenre = result[0];
-                    return res.json(albumsByGenre);
-                    
-                })
-                .catch(err => console.log("Album find error", err));
-        })
-        .catch(err => console.log("Genre Album find error", err));
+    GenreAlbum.find({genreID}, (err, genreAlbum) => {
+        let albumsID = [];
+        genreAlbum.map(item => albumsID.push(item.albumID));
+        
+        Album.find({_id: {$in: albumsID}}, (err, albums) => {
+            res.json(albums);            
+        });        
+    })
 }
 
 exports.fillAlbumsByGenre = async function(req, res) {    
