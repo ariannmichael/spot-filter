@@ -17,9 +17,10 @@ export default class CardGenre extends Component {
     }
 
     componentDidMount() {
-        const genre = this.state.genre;        
-        axios.get('http://localhost:8080/album/getAlbumsByGenre?genre=' + genre)
-            .then(res => this.setState({albumsByGenre: res.data.albumsByGenre}));
+        const genre = this.state.genre;
+        
+        axios.get('http://localhost:8080/album/getAlbumsByGenre?id=' + genre._id)
+            .then(res => this.setState({albumsByGenre: res.data}));
     }
 
     toggleAlbums() {
@@ -27,12 +28,12 @@ export default class CardGenre extends Component {
 
     }
 
-    render() {
-        const albums = this.state.albumsByGenre.map((album) => {            
+    render() {        
+        const albums = this.state.albumsByGenre.map((item) => {            
             return(
-                <CardAlbum key={album.album.name} album={album.album}/>
+                <CardAlbum key={item._id} album={item.album}/>
             );
-        });
+        });        
 
         return(
             <div>
@@ -40,7 +41,7 @@ export default class CardGenre extends Component {
                     <div className="genre-line">
                         <button className="btn btn-genre" onClick={this.toggleAlbums}>
                             <i className="fas fa-angle-down"></i>
-                            {this.state.genre}
+                            {this.state.genre.genre}
                         </button>
                     </div>
                     <br/>
