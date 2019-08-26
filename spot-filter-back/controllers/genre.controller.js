@@ -7,3 +7,12 @@ exports.getGenres = async function(req, res) {
         .then(genres => res.json({genres}))
         .catch(err => console.log('Something went wrong with Genres',err));
 }
+
+exports.getGenreID = async function(req, res) {
+    const genre = req.query.genre;
+    
+    Genre.find({genre}, (err, result) => {
+        res.json(result);        
+    })
+
+}

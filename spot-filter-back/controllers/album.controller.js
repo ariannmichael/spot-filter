@@ -14,7 +14,7 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQDay-LLrdjxZWzTn8IdHs-MZWY_iphuxTicEl1-SvonZHboKTNEtsPaEavbxcy-kuYdjsfgNs_ZlCrKDusmnZNGcQmKFxrIpDzovhHDOQjFY8HHgvtUX-l6O00xUCLi-RRreRCzBpRhi-NKOoDFHpwkhXps0eHWexjGwn11NBVPPQ';
+const USER_TOKEN = 'BQDeiQwruaD7pn7eoR100vgWsom3hRa4C6o4SY8yZyNLuUewNiHuzyns80d3nMg08ftxqgIEI9eTAD91VbAp80yE2wdDuEWHZMHboBZRx3DNfF_BEkmIMAsB4CL1cDHT-lqWdrZVzsoWmI9oqUyXi5hvxe03QRfQTm6SetXXirIuNg';
 spotifyApi.setAccessToken(USER_TOKEN);
 
 var LIMIT_ALBUMS = 2;
