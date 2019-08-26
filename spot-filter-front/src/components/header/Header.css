@@ -9,7 +9,73 @@
     position: absolute;
     color: #1DB954;
     font-weight: 700;
-    font-size: 1.6rem;
+    font-size: 2.5rem;
     left: 8vh;
-    top: 2vh;
+    top: 0.8vh;
+}
+
+.heading-name h1 {
+    font-size: 4rem;
+}
+
+.header-button-toolbar {
+    position: absolute;
+    left: 40rem;
+    top: 3vh;
+}
+
+.header-link {
+    background-color: #121212;
+    width: 8rem;
+    text-decoration: none;
+    border: none;
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-right: 5rem;
+}
+
+.header-link:hover {
+    border-bottom: 10px solid #1DB954;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.header-link:visited {
+    border-bottom: 10px solid #1DB954;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.header-link:focus {
+    border-bottom: 10px solid #1DB954;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.search-form {
+    width: 15rem;
+    border-radius: 100px;
+    border: none;
+    position: absolute;
+    top: 0.5vh;
+    left: 45rem;
+    padding-left: 2.5rem;
+}
+
+.fa-search {
+    color: black;
+    position: absolute;
+    left: 46rem;
+    top: 1.5vh;
+}
+
+.profile-photo {
+    position: absolute;
+    background-color: #858585;
+    width: 6vh;
+    height: 6vh;
+    left: 65rem;
+    top: -.5vh;
+    border-radius: 100%;
 }
