@@ -14,10 +14,10 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 
-const USER_TOKEN = 'BQDeiQwruaD7pn7eoR100vgWsom3hRa4C6o4SY8yZyNLuUewNiHuzyns80d3nMg08ftxqgIEI9eTAD91VbAp80yE2wdDuEWHZMHboBZRx3DNfF_BEkmIMAsB4CL1cDHT-lqWdrZVzsoWmI9oqUyXi5hvxe03QRfQTm6SetXXirIuNg';
+const USER_TOKEN = 'BQDpAktnSaGTD_wKBStqIc6Yy77MvguAEYAmRQqI88mni-LOYtBEiNQH_Hb0C-_dd0CZIKdc4CGXEtFTKpbKO0WGINBGIsSacEVDr5XnlEgm-cazuYEl6dCJUNgYU2A8WVvBpQiAJl-UUvIIm0MQxnExRTtIroDqWNBMx9sm8oov3A';
 spotifyApi.setAccessToken(USER_TOKEN);
 
-var LIMIT_ALBUMS = 2;
+var LIMIT_ALBUMS = 10;
 var OFF_SET_ALBUMS = 0;
 
 exports.getAlbumsByGenre = async function(req, res) {

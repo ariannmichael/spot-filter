@@ -9,10 +9,10 @@ exports.getGenres = async function(req, res) {
 }
 
 exports.getGenreID = async function(req, res) {
-    const genre = req.query.genre;
+    const genreName = req.query.genre;
     
-    Genre.find({genre}, (err, result) => {
-        res.json(result);        
+    Genre.find({genre: {$regex: genreName }}, (err, result) => {
+        res.json(result);            
     })
 
 }
