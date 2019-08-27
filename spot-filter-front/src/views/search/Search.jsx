@@ -19,11 +19,14 @@ export default class Search extends Component {
 
     }
 
-    componentDidUpdate() {
-        axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre)
-            .then(res => {                
-                this.setState({genre: res.data}) 
-            })
+    componentDidUpdate(prevProps) {
+        if(this.props.location.state.genre !== prevProps.location.state.genre) {
+            this.setState({genre: []});
+            axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre)
+                .then(res => {                
+                    this.setState({genre: res.data}) 
+                })
+        }
     }
     
     render() {

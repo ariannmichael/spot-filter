@@ -9,18 +9,17 @@
     position: absolute;
     color: #1DB954;
     font-weight: 700;
-    font-size: 2.5rem;
-    left: 8vh;
-    top: 0.8vh;
+    left: 1vh;
+    top: 0.6vh;
 }
 
 .heading-name h1 {
-    font-size: 4rem;
+    font-size: 7vh;
 }
 
 .header-button-toolbar {
     position: absolute;
-    left: 40rem;
+    left: 70vh;
     top: 3vh;
 }
 
@@ -31,8 +30,8 @@
     border: none;
     text-align: center;
     color: #ffffff;
-    font-size: 1.8rem;
-    margin-right: 5rem;
+    font-size: 1.6rem;
+    margin-right: 6vh;
 }
 
 .header-link:hover {
@@ -54,20 +53,20 @@
 }
 
 .search-form {
-    width: 15rem;
+    width: 25vh;
     border-radius: 100px;
     border: none;
     position: absolute;
-    top: 0.5vh;
-    left: 45rem;
+    top: 0.1vh;
+    left: 20vh;
     padding-left: 2.5rem;
 }
 
 .fa-search {
     color: black;
     position: absolute;
-    left: 46rem;
-    top: 1.5vh;
+    left: 22vh;
+    top: 1.8vh;
 }
 
 .profile-photo {
@@ -75,7 +74,16 @@
     background-color: #858585;
     width: 6vh;
     height: 6vh;
-    left: 65rem;
-    top: -.5vh;
+    left: 50vh;
     border-radius: 100%;
+}
+
+.plus-button {
+    border-radius: 100%;
+    background-color: #1DB954;
+    color: #ffffff;
+}
+
+.plus-button:hover {
+    background-color: rgb(29, 144, 70);
 }
