@@ -8,6 +8,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 var LIMIT_ALBUMS = 10;
 var OFF_SET_ALBUMS = 0;
 
+var displayName = '';
 
 var scopes = ['user-library-read']
 
@@ -31,15 +32,20 @@ exports.callback = async function(req, res) {
         // Set the access token on the API object to use it in later calls
         spotifyApi.setAccessToken(data.body['access_token']);
         spotifyApi.setRefreshToken(data.body['refresh_token']);
-        res.redirect('http://localhost:3000/home');
+        return spotifyApi.getMe();
       },
       function(err) {
         console.log('Something went wrong!', err);
       }
-  );
+  ).then(function(data) {
+    displayName = data.body['display_name']
+    res.redirect('http://localhost:3000/home');
+  })
 }
 
-
+exports.getDisplayName = async function(req, res) {
+    res.json({displayName});
+}
 
 exports.getAlbumsByGenre = async function(req, res) {
     const genreID = req.query.id;
