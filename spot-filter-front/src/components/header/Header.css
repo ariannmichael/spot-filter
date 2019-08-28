@@ -53,6 +53,17 @@
     color: #ffffff;
 }
 
+.plus-button {
+    border-radius: 100%;
+    background-color: #1DB954;
+    color: #ffffff;
+    margin-left: 2vh;
+}
+
+.plus-button:hover {
+    background-color: rgb(29, 144, 70);
+}
+
 .search-form {
     width: 25vh;
     border-radius: 100px;
@@ -70,22 +81,12 @@
     top: 1.3vh;
 }
 
-.profile-photo {
-    position: absolute;
-    background-color: #858585;
-    width: 6vh;
-    height: 6vh;
-    left: 50vh;
-    border-radius: 100%;
+
+.dropdown-button {
+    left: 40vh;
 }
 
-.plus-button {
-    border-radius: 100%;
-    background-color: #1DB954;
+.logout-button:focus {
+    background-color: #121212;
     color: #ffffff;
-    margin-left: 2vh;
-}
-
-.plus-button:hover {
-    background-color: rgb(29, 144, 70);
 }

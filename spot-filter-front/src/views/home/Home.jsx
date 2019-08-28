@@ -3,6 +3,7 @@ import './Home.css';
 import Genre from '../../components/genre/Genre';
 import axios from 'axios';
 
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +14,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         //axios get fillAlbumsByGenre
-        // axios.get('http://localhost:8080/album/fillAlbumsByGenre')
+        axios.get('http://localhost:8080/album/fillAlbumsByGenre')
 
         //axios get genres
         axios.get('http://localhost:8080/genre/getGenres')

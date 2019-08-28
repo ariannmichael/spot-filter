@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css';
-import { Image, ButtonToolbar, Form, Button } from 'react-bootstrap';
+import { ButtonToolbar, Form, Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,8 +8,14 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: ''
+            search: '',
+            displayName: ''
         }
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:8080/users/displayname')
+            .then(data => this.setState({displayName: data.data.displayName}));
     }
 
     handleChangeSearch = event => {
@@ -34,6 +40,12 @@ class Header extends Component {
             })
     }
 
+    logout = () => {
+        this.props.history.push({
+            pathname: '/login'
+        });
+    }
+
     render() {
         return(
             <header className="header">
@@ -45,11 +57,11 @@ class Header extends Component {
                             </div>
                         </div>
                         <ButtonToolbar className="header-button-toolbar">
-                            <div className="col-lg-7">
-                                <Link to="/'" className="header-link"  variant="outline-none">
+                            <div className="col-lg-5">
+                                <Link to="/home" className="header-link"  variant="outline-none">
                                     Albums
                                 </Link>
-                                <Link to="/" className="header-link"  variant="outline-none">
+                                <Link to="/home" className="header-link"  variant="outline-none">
                                     Artists
                                 </Link>                          
                             </div>
@@ -63,6 +75,13 @@ class Header extends Component {
                                 <Button className="plus-button" variant="outline-dark" title="More Albums" onClick={this.moreAlbums}>
                                     <i className="fas fa-plus"></i>
                                 </Button>
+                            </div>
+                            <div className="col-lg-1">
+                                <DropdownButton className="dropdown-button" variant="dark" title={this.state.displayName}>
+                                    <Dropdown.Item className="logout-button" onClick={this.logout}>
+                                        Logout
+                                    </Dropdown.Item>
+                                </DropdownButton>
                             </div>
                         </ButtonToolbar>
                     </div>
