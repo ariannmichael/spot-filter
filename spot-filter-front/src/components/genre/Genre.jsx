@@ -36,7 +36,7 @@ export default class CardGenre extends Component {
         });        
 
         return(
-            <div>
+            <div className="genre">
                 <section>
                     <div className="genre-line">
                         <button className="btn btn-genre" onClick={this.toggleAlbums}>

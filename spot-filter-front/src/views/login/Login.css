@@ -1,7 +1,18 @@
 .login {
     position: relative;
     text-align: center;
-    top: 20vh;
+    top: 15vh;
+}
+
+.spotfilter-text-primary {
+    font-size: 5rem;
+    font-weight: 600;
+    color: #1DB954;
+}
+
+.spotfilter-text-secondary {
+    font-size: 1.6rem;
+    margin-bottom: 5rem;
 }
 
 .login-text {
@@ -14,28 +25,7 @@
     width: 17vh;
     margin-left: 3vh;
     display: inline-block;
-}
-
-.login-form {
-    margin-top: 4vh;
-}
-
-.login-input {
-    width: 50vh;
-    height: 4vh;
-    font-weight: 500;
-    font-size: 1rem;
-    margin-bottom: 3vh;
-    padding-left: 10px;
-    background-color: rgb(97, 97, 97);
-    color: #ffffff;
-    border-color: none;
-    box-shadow: none;
-    border: none;
-}
-
-.login-input::placeholder {
-    color: #969696;
+    padding-bottom: 2vh;
 }
 
 .login-button {
@@ -49,4 +39,9 @@
     font-weight: 700;   
     font-size: 1.4rem;
     border: none;
+}
+
+.login-button:hover {
+    background-color: rgb(29, 144, 70);
+    color: #ffffff;
 }

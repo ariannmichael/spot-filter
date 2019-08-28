@@ -10,7 +10,6 @@ export default props => (
         <Route exact path="/login" component={Login}/>
         <Route path="/home" component={Home} />
         <Route path="/search" component={Search} />
-        {/* change to login */}
-        <Redirect from="*" to="/home"/>
+        <Redirect from="*" to="/login"/>
     </Switch>
 );

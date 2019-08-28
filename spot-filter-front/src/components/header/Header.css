@@ -3,6 +3,7 @@
     height: 10vh;
     margin-top: 0;
     position: relative;
+    min-width: 100vh;
 }
 
 .heading-name {
@@ -19,7 +20,7 @@
 
 .header-button-toolbar {
     position: absolute;
-    left: 70vh;
+    left: 75vh;
     top: 3vh;
 }
 
@@ -82,6 +83,7 @@
     border-radius: 100%;
     background-color: #1DB954;
     color: #ffffff;
+    margin-left: 2vh;
 }
 
 .plus-button:hover {

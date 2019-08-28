@@ -27,6 +27,11 @@ class Header extends Component {
 
     moreAlbums = () => {
         axios.get('http://localhost:8080/album/fillAlbumsByGenre')
+            .then(res => {
+                this.props.history.push({
+                    pathname: '/home'
+                })
+            })
     }
 
     render() {
@@ -35,22 +40,17 @@ class Header extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3">
-                            <Link to="/home">
-                                <div className="heading-name">
-                                    <h1>Spot Filter</h1>
-                                </div>
-                            </Link>
+                            <div className="heading-name">
+                                <h1>Spotfilter</h1>
+                            </div>
                         </div>
                         <ButtonToolbar className="header-button-toolbar">
-                            <div className="col-lg-9">
+                            <div className="col-lg-7">
                                 <Link to="/'" className="header-link"  variant="outline-none">
                                     Albums
                                 </Link>
                                 <Link to="/" className="header-link"  variant="outline-none">
                                     Artists
-                                </Link>
-                                <Link to="/" className="header-link"  variant="outline-none">
-                                    About
                                 </Link>                          
                             </div>
                             <div className="col-lg-1">

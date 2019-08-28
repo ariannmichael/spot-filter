@@ -8,11 +8,19 @@ import Routes from '../main/Routes';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header/>
-      <Routes/>
-      <Footer/>
-    </BrowserRouter>
+    <div className="main-container">
+      <BrowserRouter>
+        <header>
+          <Header/>
+        </header>
+        <section>
+          <Routes/>
+        </section>
+        <footer>
+          <Footer/>
+        </footer>
+      </BrowserRouter>
+    </div>
   );
 }
 
