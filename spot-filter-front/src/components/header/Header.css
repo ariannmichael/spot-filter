@@ -14,7 +14,7 @@
 }
 
 .heading-name h1 {
-    font-size: 7vh;
+    font-size: 6vh;
 }
 
 .header-button-toolbar {
@@ -66,7 +66,7 @@
     color: black;
     position: absolute;
     left: 22vh;
-    top: 1.8vh;
+    top: 1.3vh;
 }
 
 .profile-photo {

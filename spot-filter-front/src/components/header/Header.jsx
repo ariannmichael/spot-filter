@@ -61,7 +61,7 @@ class Header extends Component {
                             </div>
                             <div className="col-lg-1">
                                 <Button className="plus-button" variant="outline-dark" title="More Albums" onClick={this.moreAlbums}>
-                                    <i class="fas fa-plus"></i>
+                                    <i className="fas fa-plus"></i>
                                 </Button>
                             </div>
                         </ButtonToolbar>
