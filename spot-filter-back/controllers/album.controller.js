@@ -3,22 +3,43 @@ var _ = require('lodash');
 var Album = require('../models/album.model');
 var Genre = require('../models/genre.model');
 var GenreAlbum = require('../models/genre-album.model');
-
 var SpotifyWebApi = require('spotify-web-api-node');
-
-// credentials are optional
-var spotifyApi = new SpotifyWebApi({
-  clientId: ' 35f8a82afeae4b46ad0833e742bf0c45',
-  clientSecret: 'a6338157c9bb5ac9c71924cb2940e1a7',
-  redirectUri: 'http://localhost:8080'
-});
-
-
-const USER_TOKEN = 'BQDpAktnSaGTD_wKBStqIc6Yy77MvguAEYAmRQqI88mni-LOYtBEiNQH_Hb0C-_dd0CZIKdc4CGXEtFTKpbKO0WGINBGIsSacEVDr5XnlEgm-cazuYEl6dCJUNgYU2A8WVvBpQiAJl-UUvIIm0MQxnExRTtIroDqWNBMx9sm8oov3A';
-spotifyApi.setAccessToken(USER_TOKEN);
 
 var LIMIT_ALBUMS = 10;
 var OFF_SET_ALBUMS = 0;
+
+
+var scopes = ['user-library-read']
+
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+  clientId: '35f8a82afeae4b46ad0833e742bf0c45',
+  clientSecret: '181a34b83d43458c9e8af848524b70da',
+  redirectUri: 'http://localhost:8080/callback'
+});
+
+exports.login = async function(req, res) {
+  var authorizeURL = spotifyApi.createAuthorizeURL(scopes); 
+  res.redirect(authorizeURL);
+}
+
+exports.callback = async function(req, res) {
+  let code = req.query.code || null;
+    
+  spotifyApi.authorizationCodeGrant(code).then(
+      function(data) {
+        // Set the access token on the API object to use it in later calls
+        spotifyApi.setAccessToken(data.body['access_token']);
+        spotifyApi.setRefreshToken(data.body['refresh_token']);
+        res.redirect('http://localhost:3000/home');
+      },
+      function(err) {
+        console.log('Something went wrong!', err);
+      }
+  );
+}
+
+
 
 exports.getAlbumsByGenre = async function(req, res) {
     const genreID = req.query.id;
