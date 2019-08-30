@@ -60,6 +60,10 @@ exports.getAlbumsByGenre = async function(req, res) {
     })
 }
 
+exports.logout = async function(req, res) {
+    mongoose.connection.db.dropDatabase();
+}
+
 exports.fillAlbumsByGenre = async function(req, res) {    
     return await spotifyApi.getMySavedAlbums({
         limit: LIMIT_ALBUMS,

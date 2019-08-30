@@ -14,7 +14,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         //axios get fillAlbumsByGenre
-        axios.get('http://localhost:8080/album/fillAlbumsByGenre')
+        // axios.get('http://localhost:8080/album/fillAlbumsByGenre')
 
         //axios get genres
         axios.get('http://localhost:8080/genre/getGenres')
@@ -25,7 +25,19 @@ export default class Home extends Component {
     }
 
     render() {
-        const genres = this.state.genres.map(genre => {
+        const genres = this.state.genres.sort(function(a, b) {
+            var genreA = a.genre.toUpperCase(); // ignore upper and lowercase
+            var genreB = b.genre.toUpperCase(); // ignore upper and lowercase
+            if (genreA < genreB) {
+              return -1;
+            }
+            if (genreA > genreB) {
+              return 1;
+            }
+          
+            // genres must be equal
+            return 0;
+          }).map(genre => {
             return(
                 <Genre key={genre._id} genre={genre} />
             )

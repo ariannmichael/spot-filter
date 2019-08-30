@@ -41,6 +41,9 @@ class Header extends Component {
     }
 
     logout = () => {
+        this.setState({displayName: ''})
+
+        axios.get('http://localhost:8080/logout')
         this.props.history.push({
             pathname: '/login'
         });
@@ -51,7 +54,7 @@ class Header extends Component {
             <header className="header">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-2">
                             <div className="heading-name">
                                 <h1>Spotfilter</h1>
                             </div>
@@ -65,13 +68,13 @@ class Header extends Component {
                                     Artists
                                 </Link>                          
                             </div>
-                            <div className="col-lg-1">
+                            <div className="col-lg-2">
                                 <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
                                 <Link to={{ pathname: "/search", state:{genre: this.state.search} }} variant="outline-none">
                                     <i className="fas fa-search"></i>
                                 </Link>
                             </div>
-                            <div className="col-lg-1">
+                            <div className="col-lg-2">
                                 <Button className="plus-button" variant="outline-dark" title="More Albums" onClick={this.moreAlbums}>
                                     <i className="fas fa-plus"></i>
                                 </Button>

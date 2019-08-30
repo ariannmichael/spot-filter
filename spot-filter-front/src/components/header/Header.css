@@ -11,7 +11,7 @@
     color: #1DB954;
     font-weight: 700;
     left: 1vh;
-    top: 0.6vh;
+    top: 2vh;
 }
 
 .heading-name h1 {
@@ -20,7 +20,7 @@
 
 .header-button-toolbar {
     position: absolute;
-    left: 75vh;
+    left: 72vh;
     top: 3vh;
 }
 
@@ -57,7 +57,7 @@
     border-radius: 100%;
     background-color: #1DB954;
     color: #ffffff;
-    margin-left: 2vh;
+    margin-left: 1vh;
 }
 
 .plus-button:hover {
@@ -70,15 +70,15 @@
     border: none;
     position: absolute;
     top: 0.1vh;
-    left: 20vh;
+    left: 30vh;
     padding-left: 2.5rem;
 }
 
 .fa-search {
     color: black;
     position: absolute;
-    left: 22vh;
-    top: 1.3vh;
+    left: 32vh;
+    top: 1.5vh;
 }
 
 
