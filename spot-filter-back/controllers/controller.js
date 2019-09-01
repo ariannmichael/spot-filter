@@ -6,7 +6,7 @@ var Genre = require('../models/genre.model');
 var SpotifyWebApi = require('spotify-web-api-node');
 Genre.createCollection();
 
-var LIMIT_ALBUMS = 50;
+var LIMIT_ALBUMS = 20;
 var OFF_SET_ALBUMS = 0;
 
 var displayName = '';
@@ -81,23 +81,6 @@ exports.fillAlbumsByGenre = async function(req, res) {
     
     OFF_SET_ALBUMS += LIMIT_ALBUMS;
     return res.status(200).send({message:"Albums filled with success"});
-    // .then(data => {        
-    //     let count = 0;
-    //     data.body.items.map(item => {            
-    //         getArtistGenre(item).then(genres => {
-    //             let newAlbum = new Album(item);
-    //             newAlbum.album.genres = genres;
-
-    //             saveAlbum(newAlbum);
-    //             saveGenre(genres, newAlbum._id);
-    //         })
-    //     });      
-        
-    //     //offset albums searched based on search limit
-    //     OFF_SET_ALBUMS += LIMIT_ALBUMS;
-    //     return res.status(200).send({message:"Albums filled with success"});
-    // })
-    // .catch(err => console.log('Something went wrong Get Albums!', err));
 }
 
 
@@ -124,26 +107,24 @@ async function saveGenre(genre, newAlbumID) {
         if(results.length > 0) {
             results[0].albumsID.push(newAlbumID);
             results[0].save();
-            return results[0];
         } else {
             let newGenre = new Genre({genre, albumsID: newAlbumID});
             newGenre.save();
-            return newGenre;
         }
     })
     
 }
 
-async function getArtistGenre(item) {
+function getArtistGenre(item) {
 
     let artist = item.album.artists;
     artistID = artist[0].id;
     
-    return await getArtistInfo(artistID).then(res => res);
+    return getArtistInfo(artistID).then(res => res);
 }
 
-async function getArtistInfo(artistID) {
-    return await spotifyApi.getArtist(artistID)
+function getArtistInfo(artistID) {
+    return spotifyApi.getArtist(artistID)
         .then(data => {
             let artistInfo = data.body;
             return getGenre(artistInfo);

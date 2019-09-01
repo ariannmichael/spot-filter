@@ -12,9 +12,9 @@ export default class Home extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         //axios get fillAlbumsByGenre
-        // axios.get('http://localhost:8080/album/fillAlbumsByGenre')
+        await axios.get('http://localhost:8080/album/fillAlbumsByGenre')
 
         //axios get genres
         axios.get('http://localhost:8080/genre/getGenres')

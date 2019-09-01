@@ -13,7 +13,7 @@ export default class Search extends Component {
 
     componentDidMount() {        
         axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre)
-            .then(res => {                
+            .then(res => {     
                 this.setState({genres: res.data}) 
             })
 
