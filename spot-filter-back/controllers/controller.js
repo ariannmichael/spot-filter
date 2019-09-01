@@ -6,7 +6,7 @@ var Genre = require('../models/genre.model');
 var SpotifyWebApi = require('spotify-web-api-node');
 Genre.createCollection();
 
-var LIMIT_ALBUMS = 5;
+var LIMIT_ALBUMS = 50;
 var OFF_SET_ALBUMS = 0;
 
 var displayName = '';
@@ -65,54 +65,73 @@ exports.logout = async function(req, res) {
 }
 
 exports.fillAlbumsByGenre = async function(req, res) {    
-    return await spotifyApi.getMySavedAlbums({
+    const response = await spotifyApi.getMySavedAlbums({
         limit: LIMIT_ALBUMS,
         offset: OFF_SET_ALBUMS
     })
-    .then(data => {        
-        let count = 0;
-        data.body.items.map(item => {            
-            getArtistGenre(item).then(genres => {
-                let newAlbum = new Album(item);
-                newAlbum.album.genres = genres;
 
-                saveAlbum(newAlbum);
-                saveGenre(genres, newAlbum._id);
-            })
-        });      
+    const albums = await response.body.items;
+    for(const album of albums) {
+        const genres = await getArtistGenre(album);
+        const newAlbum = await saveAlbum(album, genres);
+        for(const genre of genres) {
+            await saveGenre(genre, newAlbum._id)
+        }   
+    }
+    
+    OFF_SET_ALBUMS += LIMIT_ALBUMS;
+    return res.status(200).send({message:"Albums filled with success"});
+    // .then(data => {        
+    //     let count = 0;
+    //     data.body.items.map(item => {            
+    //         getArtistGenre(item).then(genres => {
+    //             let newAlbum = new Album(item);
+    //             newAlbum.album.genres = genres;
+
+    //             saveAlbum(newAlbum);
+    //             saveGenre(genres, newAlbum._id);
+    //         })
+    //     });      
         
-        //offset albums searched based on search limit
-        OFF_SET_ALBUMS += LIMIT_ALBUMS;
-        return res.status(200).send({message:"Albums filled with success"});
-    })
-    .catch(err => console.log('Something went wrong Get Albums!', err));
+    //     //offset albums searched based on search limit
+    //     OFF_SET_ALBUMS += LIMIT_ALBUMS;
+    //     return res.status(200).send({message:"Albums filled with success"});
+    // })
+    // .catch(err => console.log('Something went wrong Get Albums!', err));
 }
 
 
-async function saveAlbum(newAlbum) {
+async function saveAlbum(album, genres) {
+    let newAlbum = new Album(album);
+    newAlbum.album.genres = genres;
+    
     // save album
     const albumName = newAlbum.album.name;
     return await Album.find({"album.name": albumName}, (err, us) => {}).then(element => {
         // album doesn't exist on db
         if(element.length == 0) {
             newAlbum.save();
+            return newAlbum;
         }                        
     })
+
 }
 
-async function saveGenre(genres, newAlbumID) {
+async function saveGenre(genre, newAlbumID) {
     //save genre
-    return await genres.map(genre => {
-        Genre.find({genre}, (err, results) => {
-            if(results.length > 0) {
-                results[0].albumsID.push(newAlbumID);
-                results[0].save();
-            } else {
-                let newGenre = new Genre({genre, albumsID: newAlbumID});
-                newGenre.save();
-            }
-        })
+    
+    return await Genre.find({genre}, (err, results) => {
+        if(results.length > 0) {
+            results[0].albumsID.push(newAlbumID);
+            results[0].save();
+            return results[0];
+        } else {
+            let newGenre = new Genre({genre, albumsID: newAlbumID});
+            newGenre.save();
+            return newGenre;
+        }
     })
+    
 }
 
 async function getArtistGenre(item) {
