@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.17",
     "@fortawesome/fontawesome-svg-core": "^1.2.20",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.19.0",
@@ -13,7 +14,8 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-spinners": "^0.6.1"
   },
   "scripts": {
     "start": "react-scripts start",

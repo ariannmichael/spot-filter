@@ -35,7 +35,8 @@ class Header extends Component {
         axios.get('http://localhost:8080/album/fillAlbumsByGenre')
             .then(res => {
                 this.props.history.push({
-                    pathname: '/home'
+                    pathname: '/home',
+                    state: {loading: true}
                 })
             })
     }

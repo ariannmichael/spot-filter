@@ -1,6 +1,6 @@
-# Spot Filter v0.1
+# Spot Filter v1.0
 
-Spot Filter is an api to filter a list of albums and artists in Spotify based in the genre.
+Spot Filter is an api to filter a list of albums and artists in Spotify based on the genre.
 Using the Spotify's api.
 
 ## How it works
@@ -9,7 +9,7 @@ Using the Spotify's api.
 
 Such as albuns, artists and musics saved from Spotify's api.
 
-### Divide the information in genre
+### Divide the information on genre
 
 Group the information by genre
 
