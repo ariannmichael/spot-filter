@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var controller = require('../controllers/controller');
+var albumController = require('../controllers/album.controller');
 
-router.get('/fillAlbumsByGenre', controller.fillAlbumsByGenre);
-router.get('/getAlbumsByGenre', controller.getAlbumsByGenre);
+router.get('/getAlbumsByGenre', albumController.getAlbumsByGenre);
 
 module.exports = router;

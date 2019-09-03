@@ -1,101 +1,40 @@
-import React, { Component } from 'react';
-import { css } from '@emotion/core';
+import React, { useEffect } from 'react';
 import './Home.css';
-import Genre from '../../components/genre/Genre';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import SyncLoader from 'react-spinners/SyncLoader';
 
+export default props => {
 
-const override = css`
-    display: block;
-    margin: 35vh auto;
-    text-align: center;
-    border-color: #1DB954;
-`;
-
-export default class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            genres:[],
-            loading: true
+    useEffect(() => {
+        async function fetchData() {
+            await axios.get('http://localhost:8080/fillByGenre')
         }
 
-        this.handleLoading = this.handleLoading.bind(this);
-        this.handleLoading = this.handleLoading.bind(this);
-    }
+        fetchData();
+    })
 
-    async componentDidMount() {
-        //axios get fillAlbumsByGenre
-        await axios.get('http://localhost:8080/album/fillAlbumsByGenre')
-        
-
-        //axios get genres
-        axios.get('http://localhost:8080/genre/getGenres')
-            .then(result => {                
-                this.setState({genres: result.data.genres});
-                this.setState({loading: false});
-            });
-        
-    }
-
-    async componentDidUpdate(prevProps) {
-        if(this.props !== prevProps) {
-            this.setState({loading: true});
-
-            await axios.get('http://localhost:8080/genre/getGenres')
-                .then(result => {                
-                    this.setState({genres: result.data.genres});
-                    this.setState({loading: false});
-                });
-        }
-    }
-
-    handleLoading() {
-        return(
-            <div className='sweet-loading'>
-                <SyncLoader
-                    css={override}
-                    sizeUnit={"rem"}
-                    size={2}
-                    color={'#1DB954'}
-                    loading={this.state.loading}
-                />
+    return (
+        <div className="home">
+            <div className="spotfilter-text">
+                <p className="spotfilter-text-primary">Spotfilter</p>
+                <p className="spotfilter-text-secondary">Choose between yours: 
+                <Link to="/albums" className="home-link"  variant="outline-none">
+                    Albums
+                </Link>
+                or
+                <Link to="/artists" className="home-link"  variant="outline-none">
+                    Artists
+                </Link>
+                </p>
             </div>
-        );
-    }
-
-    handleGenres(){
-        const genres = this.state.genres.sort(function(a, b) {
-            var genreA = a.genre.toUpperCase(); // ignore upper and lowercase
-            var genreB = b.genre.toUpperCase(); // ignore upper and lowercase
-            if (genreA < genreB) {
-            return -1;
-            }
-            if (genreA > genreB) {
-            return 1;
-            }
-        
-            // genres must be equal
-            return 0;
-        }).map(genre => {
-            return(
-                <Genre key={genre._id} genre={genre} />
-            )
-        });
-        
-        return (
-            <div className="home-menu">
-                {genres}
+            <br/>
+            <div className="home-button">
+                <p className="spotfilter-text-secondary">Starts with 10 albums and artists, for more click on: </p>
+                <Button className="plus-button" variant="outline-dark" title="More Albums">
+                    <i className="fas fa-plus"></i>
+                </Button>
             </div>
-        );
-    }
-
-    render() {
-        return(
-            <div>
-                {this.state.loading ? this.handleLoading() : this.handleGenres()}
-            </div>
-        )
-    }
+        </div>
+    )
 }

@@ -1,3 +1,63 @@
-.home-menu {
-    padding: 8vh;
+.home {
+    position: relative;
+    text-align: center;
+    top: 15vh;
+}
+
+.spotfilter-text-primary {
+    font-size: 5rem;
+    font-weight: 600;
+    color: #1DB954;
+    margin-bottom: 3rem;
+}
+
+.spotfilter-text-secondary {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-right: 2rem;
+    display: inline-block;
+}
+
+.home-link {
+    background-color: #121212;
+    width: 8rem;
+    text-decoration: none;
+    border: none;
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.6rem;
+    margin: 2vh 2vh;
+}
+
+.home-link:hover {
+    border-bottom: 10px solid #1DB954;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.home-link:visited {
+    border-bottom: 10px solid #1DB954;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.home-link:focus {
+    border-bottom: 10px solid #1DB954;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.home-button {
+    display: inline-block;
+}
+
+.plus-button {
+    border-radius: 100%;
+    background-color: #1DB954;
+    color: #ffffff;
+    margin-left: 1vh;
+}
+
+.plus-button:hover {
+    background-color: rgb(29, 144, 70);
 }

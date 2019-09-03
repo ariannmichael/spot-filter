@@ -4,9 +4,13 @@ var genreSchema = new mongoose.Schema({
     genre: {
         type: String
     },
-    albumsID:[{
+    albumsID: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Album'
+    }],
+    artistsID: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Artist'
     }]
 });
 

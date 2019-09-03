@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import './Login.css';
 import { Button, Image } from 'react-bootstrap';
 import SpotifyLogo from '../../assets/Spotify-logo-green.png';
+import axios from 'axios';
 
 export default class Login extends Component {
+    componentDidMount() {
+        axios.get('http://localhost:8080/logout')
+    }
+
     login = () => {
         window.location.replace('http://localhost:8080/login')
     }

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 var _ = require('lodash');
 var Album = require('../models/album.model');
+var Artist = require('../models/artist.model');
 var Genre = require('../models/genre.model');
-// var Genre = db.Genre;
 var SpotifyWebApi = require('spotify-web-api-node');
 Genre.createCollection();
 
@@ -48,34 +48,24 @@ exports.getDisplayName = async function(req, res) {
     res.json({displayName});
 }
 
-exports.getAlbumsByGenre = async function(req, res) {
-    const genreID = req.query.id;    
-
-    Genre.find({_id: genreID}, (err, genre) => {        
-        let albumsID = genre[0].albumsID        
-
-        Album.find({_id: {$in: albumsID}}, (err, albums) => {
-            res.json(albums);            
-        });
-    })
-}
-
 exports.logout = async function(req, res) {
     mongoose.connection.db.dropDatabase();
 }
 
-exports.fillAlbumsByGenre = async function(req, res) {    
+exports.fillByGenre = async function(req, res) {    
     const response = await spotifyApi.getMySavedAlbums({
         limit: LIMIT_ALBUMS,
         offset: OFF_SET_ALBUMS
     })
 
     const albums = await response.body.items;
+    
     for(const album of albums) {
-        const genres = await getArtistGenre(album);
+        const newArtist = await getArtist(album);
+        const genres = newArtist.genres;
         const newAlbum = await saveAlbum(album, genres);
         for(const genre of genres) {
-            await saveGenre(genre, newAlbum._id)
+            await saveGenre(genre, newAlbum._id, newArtist._id)
         }   
     }
     
@@ -100,42 +90,56 @@ async function saveAlbum(album, genres) {
 
 }
 
-async function saveGenre(genre, newAlbumID) {
+async function saveGenre(genre, newAlbumID, newArtistID) {
     //save genre
     
     return await Genre.find({genre}, (err, results) => {
         if(results.length > 0) {
             results[0].albumsID.push(newAlbumID);
+            results[0].artistsID.push(newArtistID);
             results[0].save();
         } else {
-            let newGenre = new Genre({genre, albumsID: newAlbumID});
+            let newGenre = new Genre({genre, albumsID: newAlbumID, artistsID: newArtistID});
             newGenre.save();
         }
     })
     
 }
 
-function getArtistGenre(item) {
+function getArtist(item) {
 
     let artist = item.album.artists;
     artistID = artist[0].id;
     
-    return getArtistInfo(artistID).then(res => res);
+    return getArtistInfo(artistID).then(res => res).catch(err => console.log(err));    
+    
 }
 
-function getArtistInfo(artistID) {
-    return spotifyApi.getArtist(artistID)
-        .then(data => {
-            let artistInfo = data.body;
-            return getGenre(artistInfo);
-        })
-        .then(res => {
-            
-            return res;
-        })
-        .catch(err => console.log('Something went wrong Artist Info!', err));
+async function getArtistInfo(artistID) {
+    return await spotifyApi.getArtist(artistID).then(data => {
+        const artist = data.body;    
+        let newArtist = new Artist(artist);    
+
+        return saveArtist(newArtist).then(res => res).catch(err => console.log(err));
+    }).catch(err => console.log(err));
+    // const response = await spotifyApi.getArtist(artistID)
+    // const artist = response.body;    
+    // let newArtist = new Artist(artist);    
+
+    // return await saveArtist(newArtist);    
 }
 
-function getGenre(artistInfo){
-    return artistInfo.genres;
+
+async function saveArtist(newArtist) {
+    return await Artist.find({name: newArtist.name}, (err, us) => {}).then(element => {
+        // artist doesn't exist on db
+        if(element.length == 0) {
+            newArtist.save();
+            return newArtist;
+        }                        
+    })
 }
+
+// function getGenre(artistInfo){
+//     return artistInfo.genres;
+// }

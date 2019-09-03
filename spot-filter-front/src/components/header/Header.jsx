@@ -32,10 +32,10 @@ class Header extends Component {
     }
 
     moreAlbums = () => {
-        axios.get('http://localhost:8080/album/fillAlbumsByGenre')
+        axios.get('http://localhost:8080/album/fillByGenre')
             .then(res => {
                 this.props.history.push({
-                    pathname: '/home',
+                    pathname: '/albums',
                     state: {loading: true}
                 })
             })
@@ -62,12 +62,12 @@ class Header extends Component {
                         </div>
                         <ButtonToolbar className="header-button-toolbar">
                             <div className="col-lg-5">
-                                <Link to="/home" className="header-link"  variant="outline-none">
+                                <Link to="/albums" className="header-link"  variant="outline-none">
                                     Albums
                                 </Link>
-                                <Link to="/home" className="header-link"  variant="outline-none">
+                                <Link to="/artists" className="header-link"  variant="outline-none">
                                     Artists
-                                </Link>                          
+                                </Link>
                             </div>
                             <div className="col-lg-2">
                                 <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
