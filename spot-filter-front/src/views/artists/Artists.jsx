@@ -76,7 +76,7 @@ export default class Artists extends Component {
             return 0;
         }).map(genre => {
             return(
-                <Genre key={genre._id} genre={genre} />
+                <Genre key={genre._id} genre={genre} toShow={'artists'}/>
             )
         });
         

@@ -10,8 +10,8 @@ exports.getArtistsByGenre = async function(req, res) {
     Genre.find({_id: genreID}, (err, genre) => {        
         let artistsID = genre[0].artistsID        
 
-        Artist.find({_id: {$in: artistsID}}, (err, albums) => {
-            res.json(albums);            
+        Artist.find({_id: {$in: artistsID}}, (err, artists) => {
+            res.json(artists);            
         });
     })
 }

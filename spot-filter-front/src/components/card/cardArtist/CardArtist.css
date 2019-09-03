@@ -1,0 +1,26 @@
+.card-artist {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-bottom: 1.3rem;
+}
+
+.card-artist__img img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 100%;
+}
+
+.card-artist__text {
+    width: 150px;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-artist__text--primary {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}

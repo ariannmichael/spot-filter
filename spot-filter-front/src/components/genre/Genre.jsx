@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Genre.css';
 import axios from 'axios';
 import CardAlbum from '../card/cardAlbum/CardAlbum';
+import CardArtist from '../card/cardArtist/CardArtist'
 
 
 export default class CardGenre extends Component {
@@ -10,25 +11,36 @@ export default class CardGenre extends Component {
         this.state = {
             genre: this.props.genre,
             albumsByGenre: [],
-            showAlbums: false
+            artistsByGenre: [],
+            showItem: false,
+            toShow: this.props.toShow
         }
 
-        this.toggleAlbums = this.toggleAlbums.bind(this);
+        this.toggleItems = this.toggleItems.bind(this);
+        this.handleAlbums = this.handleAlbums.bind(this);
+        this.handleArtists = this.handleArtists.bind(this);
     }
 
     componentDidMount() {
         const genre = this.state.genre;
         
-        axios.get('http://localhost:8080/album/getAlbumsByGenre?id=' + genre._id)
-            .then(res => this.setState({albumsByGenre: res.data}));
+        if(this.props.toShow === 'albums') {
+            axios.get('http://localhost:8080/album/getAlbumsByGenre?id=' + genre._id)
+                .then(res => this.setState({albumsByGenre: res.data}));
+
+        } else if(this.props.toShow === 'artists') {
+            axios.get('http://localhost:8080/artist/getArtistsByGenre?id=' + genre._id)
+                .then(res => this.setState({artistsByGenre: res.data}));
+        }
+        
     }
 
-    toggleAlbums() {
-        this.setState(state => ({showAlbums: !state.showAlbums}));
+    toggleItems() {
+        this.setState(state => ({showItem: !state.showItem}));
 
     }
 
-    render() {        
+    handleAlbums() {        
         const albums = this.state.albumsByGenre.map((item) => {            
             return(
                 <CardAlbum key={item._id} album={item.album}/>
@@ -39,17 +51,51 @@ export default class CardGenre extends Component {
             <div className="genre">
                 <section>
                     <div className="genre-line">
-                        <button className="btn btn-genre" onClick={this.toggleAlbums}>
+                        <button className="btn btn-genre" onClick={this.toggleItems}>
                             <i className="fas fa-angle-down"></i>
                             {this.state.genre.genre}
                         </button>
                     </div>
                     <br/>
                     <div className="card-album">
-                        { this.state.showAlbums && albums }
+                        { this.state.showItem && albums }
                     </div>
                 </section>
             </div>
         );
+    }
+
+    handleArtists() {        
+        const artists = this.state.artistsByGenre.map((item) => {            
+            return(
+                <CardArtist key={item._id} artist={item}/>
+            );
+        });        
+
+        return(
+            <div className="genre">
+                <section>
+                    <div className="genre-line">
+                        <button className="btn btn-genre" onClick={this.toggleItems}>
+                            <i className="fas fa-angle-down"></i>
+                            {this.state.genre.genre}
+                        </button>
+                    </div>
+                    <br/>
+                    <div className="card-album">
+                        { this.state.showItem && artists }
+                    </div>
+                </section>
+            </div>
+        );
+    }
+
+
+    render() {
+        return(
+            <div>
+                {this.state.toShow === 'albums' ? this.handleAlbums() : this.handleArtists()}
+            </div>
+        )
     }
 }
