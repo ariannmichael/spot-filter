@@ -26,13 +26,14 @@ export default class Artists extends Component {
     }
 
     async componentDidMount() {
-        //axios get genres
-        axios.get('http://localhost:8080/genre/getGenres')
-            .then(result => {                
-                this.setState({genres: result.data.genres});
-                this.setState({loading: false});
-            });
-        
+        axios.get('http://localhost:8080/fillByGenre').then(res => {
+            //axios get genres
+            axios.get('http://localhost:8080/genre/getGenres')
+                .then(result => {                
+                    this.setState({genres: result.data.genres});
+                    this.setState({loading: false});
+                });
+        })
     }
 
     async componentDidUpdate(prevProps) {

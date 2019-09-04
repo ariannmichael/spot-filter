@@ -6,13 +6,13 @@ import axios from 'axios';
 
 export default props => {
 
-    useEffect(() => {
-        async function fetchData() {
-            await axios.get('http://localhost:8080/fillByGenre')
-        }
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         await axios.get('http://localhost:8080/fillByGenre')
+    //     }
 
-        fetchData();
-    })
+    //     fetchData();
+    // })
 
     return (
         <div className="home">

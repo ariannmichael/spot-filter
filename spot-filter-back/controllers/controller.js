@@ -6,7 +6,7 @@ var Genre = require('../models/genre.model');
 var SpotifyWebApi = require('spotify-web-api-node');
 Genre.createCollection();
 
-var LIMIT_ALBUMS = 10;
+var LIMIT_ALBUMS = 2;
 var OFF_SET_ALBUMS = 0;
 
 var displayName = '';
@@ -62,11 +62,13 @@ exports.fillByGenre = async function(req, res) {
     
     for(const album of albums) {
         const newArtist = await getArtist(album);
-        const genres = newArtist.genres;
-        const newAlbum = await saveAlbum(album, genres);
-        for(const genre of genres) {
-            await saveGenre(genre, newAlbum._id, newArtist._id)
-        }   
+        if(newArtist) {
+            const genres = newArtist.genres;
+            const newAlbum = await saveAlbum(album, genres);
+            for(const genre of genres) {
+                await saveGenre(genre, newAlbum._id, newArtist._id)
+            }   
+        }
     }
     
     OFF_SET_ALBUMS += LIMIT_ALBUMS;
@@ -121,12 +123,7 @@ async function getArtistInfo(artistID) {
         let newArtist = new Artist(artist);    
 
         return saveArtist(newArtist).then(res => res).catch(err => console.log(err));
-    }).catch(err => console.log(err));
-    // const response = await spotifyApi.getArtist(artistID)
-    // const artist = response.body;    
-    // let newArtist = new Artist(artist);    
-
-    // return await saveArtist(newArtist);    
+    }).catch(err => console.log(err)); 
 }
 
 
@@ -139,7 +136,3 @@ async function saveArtist(newArtist) {
         }                        
     })
 }
-
-// function getGenre(artistInfo){
-//     return artistInfo.genres;
-// }

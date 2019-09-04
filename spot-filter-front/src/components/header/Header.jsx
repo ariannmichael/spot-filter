@@ -32,13 +32,7 @@ class Header extends Component {
     }
 
     moreAlbums = () => {
-        axios.get('http://localhost:8080/album/fillByGenre')
-            .then(res => {
-                this.props.history.push({
-                    pathname: '/albums',
-                    state: {loading: true}
-                })
-            })
+        axios.get('http://localhost:8080/fillByGenre')
     }
 
     logout = () => {
