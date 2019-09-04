@@ -90,6 +90,7 @@ export default class Artists extends Component {
     render() {
         return(
             <div>
+                <h1 className="album-text">Artists:</h1>
                 {this.state.loading ? this.handleLoading() : this.handleGenres()}
             </div>
         )
