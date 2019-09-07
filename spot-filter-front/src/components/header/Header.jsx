@@ -32,7 +32,12 @@ class Header extends Component {
     }
 
     moreAlbums = () => {
-        axios.get('http://localhost:8080/fillByGenre')
+        if(this.props.location.pathname === "/albums" || this.props.location.pathname === "/artists") {
+            this.props.history.push({
+                pathname: this.props.location.pathname
+            });
+        } 
+        
     }
 
     logout = () => {
@@ -70,7 +75,7 @@ class Header extends Component {
                                 </Link>
                             </div>
                             <div className="col-lg-2">
-                                <Button className="plus-button" variant="outline-dark" title="More Albums" onClick={this.moreAlbums}>
+                                <Button className="plus-button" variant="outline-dark" title="More Albums and Artists" onClick={this.moreAlbums}>
                                     <i className="fas fa-plus"></i>
                                 </Button>
                             </div>
