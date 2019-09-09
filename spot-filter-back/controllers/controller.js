@@ -3,6 +3,7 @@ var _ = require('lodash');
 var Album = require('../models/album.model');
 var Artist = require('../models/artist.model');
 var Genre = require('../models/genre.model');
+var User = require('../models/user.model');
 var SpotifyWebApi = require('spotify-web-api-node');
 Genre.createCollection();
 
@@ -10,6 +11,8 @@ var LIMIT_ALBUMS = 2;
 var OFF_SET_ALBUMS = 0;
 
 var displayName = '';
+var id = '';
+let newUser = new User();
 
 var scopes = ['user-library-read']
 
@@ -39,7 +42,13 @@ exports.callback = async function(req, res) {
         console.log('Something went wrong!', err);
       }
   ).then(function(data) {
-    displayName = data.body['display_name']
+    id = data.body['id'];
+    displayName = data.body['display_name'];
+
+    newUser._id = id;
+    newUser.display_name = displayName;
+    newUser.save();
+    
     res.redirect('http://localhost:3000/home');
   })
 }
@@ -103,18 +112,18 @@ async function saveGenre(genre, newAlbumID, newArtistID) {
         } else {
             let newGenre = new Genre({genre, albumsID: newAlbumID, artistsID: newArtistID});
             newGenre.save();
+            newUser.genresID.push(newGenre._id);
+            newUser.save();
         }
     })
     
 }
 
 function getArtist(item) {
-
     let artist = item.album.artists;
     artistID = artist[0].id;
     
-    return getArtistInfo(artistID).then(res => res).catch(err => console.log(err));    
-    
+    return getArtistInfo(artistID).then(res => res).catch(err => console.log(err));
 }
 
 async function getArtistInfo(artistID) {
