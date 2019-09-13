@@ -45,9 +45,13 @@ exports.callback = async function(req, res) {
     id = data.body['id'];
     displayName = data.body['display_name'];
 
-    newUser._id = id;
-    newUser.display_name = displayName;
-    newUser.save();
+    User.find({_id: id}, (err, result) => {
+        if(result.length === 0) {
+            newUser._id = id;
+            newUser.display_name = displayName;
+            newUser.save();
+        }
+    })
     
     res.redirect('http://localhost:3000/home');
   })
@@ -58,7 +62,7 @@ exports.getDisplayName = async function(req, res) {
 }
 
 exports.logout = async function(req, res) {
-    mongoose.connection.db.dropDatabase();
+    // mongoose.connection.db.dropDatabase();
 }
 
 exports.fillByGenre = async function(req, res) {    
@@ -95,8 +99,15 @@ async function saveAlbum(album, genres) {
         // album doesn't exist on db
         if(element.length == 0) {
             newAlbum.save();
+            const albumID = newAlbum._id;
+            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
+                .catch(err => console.log(err));
             return newAlbum;
-        }                        
+        } else {
+            const albumID = element[0]._id;
+            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
+                .catch(err => console.log(err));
+        }
     })
 
 }
@@ -109,11 +120,15 @@ async function saveGenre(genre, newAlbumID, newArtistID) {
             results[0].albumsID.push(newAlbumID);
             results[0].artistsID.push(newArtistID);
             results[0].save();
+            const genreID = results[0]._id;
+            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
+                .catch(err => console.log(err));
         } else {
             let newGenre = new Genre({genre, albumsID: newAlbumID, artistsID: newArtistID});
             newGenre.save();
-            newUser.genresID.push(newGenre._id);
-            newUser.save();
+            const genreID = newGenre._id;
+            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
+                .catch(err => console.log(err));
         }
     })
     
@@ -141,7 +156,14 @@ async function saveArtist(newArtist) {
         // artist doesn't exist on db
         if(element.length == 0) {
             newArtist.save();
+            const artistID = newArtist._id;
+            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
+                .catch(err => console.log(err));
             return newArtist;
-        }                        
+        } else {
+            const artistID = element[0]._id;
+            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
+                .catch(err => console.log(err));
+        }
     })
 }

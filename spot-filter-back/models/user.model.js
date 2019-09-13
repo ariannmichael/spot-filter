@@ -10,6 +10,14 @@ var userSchema = new mongoose.Schema({
     genresID: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Genre'
+    }],
+    albumsID: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Album'
+    }],
+    artistsID: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Artist'
     }]
 });
 
