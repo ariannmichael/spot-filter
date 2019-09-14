@@ -58,7 +58,7 @@ exports.callback = async function(req, res) {
 }
 
 exports.getDisplayName = async function(req, res) {
-    res.json({displayName});
+    res.json({displayName, id});
 }
 
 exports.logout = async function(req, res) {

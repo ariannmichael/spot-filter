@@ -18,7 +18,8 @@ export default class Albums extends Component {
         super(props);
         this.state = {
             genres:[],
-            loading: true
+            loading: true,
+            id: this.props.location.state.id
         }
 
         this.handleLoading = this.handleLoading.bind(this);
@@ -79,7 +80,7 @@ export default class Albums extends Component {
             return 0;
         }).map(genre => {
             return(
-                <Genre key={genre._id} genre={genre} toShow={'albums'}/>
+                <Genre key={genre._id} genre={genre} id={this.state.id} toShow={'albums'}/>
             )
         });
         

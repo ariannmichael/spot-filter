@@ -13,7 +13,8 @@ export default class CardGenre extends Component {
             albumsByGenre: [],
             artistsByGenre: [],
             showItem: false,
-            toShow: this.props.toShow
+            toShow: this.props.toShow,
+            id: this.props.id
         }
 
         this.toggleItems = this.toggleItems.bind(this);
@@ -23,13 +24,13 @@ export default class CardGenre extends Component {
 
     componentDidMount() {
         const genre = this.state.genre;
-        
+
         if(this.props.toShow === 'albums') {
-            axios.get('http://localhost:8080/album/getAlbumsByGenre?id=' + genre._id)
+            axios.get('http://localhost:8080/album/getAlbumsByGenre?genre_id=' + genre._id + '&id=' + this.state.id)
                 .then(res => this.setState({albumsByGenre: res.data}));
 
         } else if(this.props.toShow === 'artists') {
-            axios.get('http://localhost:8080/artist/getArtistsByGenre?id=' + genre._id)
+            axios.get('http://localhost:8080/artist/getArtistsByGenre?id=' + genre._id + '&id=' + this.state.id)
                 .then(res => this.setState({artistsByGenre: res.data}));
         }
         

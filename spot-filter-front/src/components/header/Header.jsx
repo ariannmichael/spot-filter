@@ -9,13 +9,17 @@ class Header extends Component {
         super(props);
         this.state = {
             search: '',
-            displayName: ''
+            displayName: '',
+            id: ''
         }
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:8080/users/displayname')
-            .then(data => this.setState({displayName: data.data.displayName}));
+    async componentDidMount() {
+        await axios.get('http://localhost:8080/users/displayname')
+            .then(data => {
+                this.setState({id: data.data.id});
+                this.setState({displayName: data.data.displayName});
+            });        
     }
 
     handleChangeSearch = event => {
@@ -34,7 +38,8 @@ class Header extends Component {
     moreAlbums = () => {
         if(this.props.location.pathname === "/albums" || this.props.location.pathname === "/artists") {
             this.props.history.push({
-                pathname: this.props.location.pathname
+                pathname: this.props.location.pathname,
+                state: {id: this.state.id}
             });
         } 
         
@@ -42,6 +47,7 @@ class Header extends Component {
 
     logout = () => {
         this.setState({displayName: ''})
+        this.setState({id: ''})
 
         axios.get('http://localhost:8080/logout')
         this.props.history.push({
@@ -61,16 +67,16 @@ class Header extends Component {
                         </div>
                         <ButtonToolbar className="header-button-toolbar">
                             <div className="col-lg-5">
-                                <Link to="/albums" className="header-link"  variant="outline-none">
+                                <Link to={{ pathname: "/albums", state: {id: this.state.id} }} className="header-link"  variant="outline-none">
                                     Albums
                                 </Link>
-                                <Link to="/artists" className="header-link"  variant="outline-none">
+                                <Link to={{ pathname:"/artists", state: {id: this.state.id} }} className="header-link"  variant="outline-none">
                                     Artists
                                 </Link>
                             </div>
                             <div className="col-lg-2">
                                 <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
-                                <Link to={{ pathname: "/search", state:{genre: this.state.search} }} variant="outline-none">
+                                <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} variant="outline-none">
                                     <i className="fas fa-search"></i>
                                 </Link>
                             </div>

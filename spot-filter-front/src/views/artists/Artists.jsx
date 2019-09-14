@@ -18,14 +18,15 @@ export default class Artists extends Component {
         super(props);
         this.state = {
             genres:[],
-            loading: true
+            loading: true,
+            id: this.props.location.state.id
         }
 
         this.handleLoading = this.handleLoading.bind(this);
         this.handleLoading = this.handleLoading.bind(this);
     }
 
-    async componentDidMount() {
+    async componentDidMount() {        
         axios.get('http://localhost:8080/fillByGenre').then(res => {
             //axios get genres
             axios.get('http://localhost:8080/genre/getGenres')
@@ -77,7 +78,7 @@ export default class Artists extends Component {
             return 0;
         }).map(genre => {
             return(
-                <Genre key={genre._id} genre={genre} toShow={'artists'}/>
+                <Genre key={genre._id} genre={genre} id={this.state.id} toShow={'artists'}/>
             )
         });
         
