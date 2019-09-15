@@ -30,7 +30,7 @@ export default class CardGenre extends Component {
                 .then(res => this.setState({albumsByGenre: res.data}));
 
         } else if(this.props.toShow === 'artists') {
-            axios.get('http://localhost:8080/artist/getArtistsByGenre?id=' + genre._id + '&id=' + this.state.id)
+            axios.get('http://localhost:8080/artist/getArtistsByGenre?genre_id=' + genre._id + '&id=' + this.state.id)
                 .then(res => this.setState({artistsByGenre: res.data}));
         }
         

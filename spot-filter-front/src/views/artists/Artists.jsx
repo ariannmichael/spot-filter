@@ -29,7 +29,7 @@ export default class Artists extends Component {
     async componentDidMount() {        
         axios.get('http://localhost:8080/fillByGenre').then(res => {
             //axios get genres
-            axios.get('http://localhost:8080/genre/getGenres')
+            axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
                 .then(result => {                
                     this.setState({genres: result.data.genres});
                     this.setState({loading: false});
@@ -41,7 +41,7 @@ export default class Artists extends Component {
         if(this.props !== prevProps) {
             this.setState({loading: true});
 
-            await axios.get('http://localhost:8080/genre/getGenres')
+            await axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
                 .then(result => {                
                     this.setState({genres: result.data.genres});
                     this.setState({loading: false});

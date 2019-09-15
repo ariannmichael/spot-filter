@@ -7,7 +7,8 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            genres: []
+            genres: [],
+            id: this.props.location.state.id
         }   
 
         this.handleSearchAlbums = this.handleSearchAlbums.bind(this);
@@ -15,9 +16,9 @@ export default class Search extends Component {
     }
 
     componentDidMount() {        
-        axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre)
-            .then(res => {     
-                this.setState({genres: res.data}) 
+        axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre + '&id=' + this.state.id)
+            .then(res => {
+                this.setState({genres: res.data.genres}) 
             })
 
     }
@@ -25,9 +26,9 @@ export default class Search extends Component {
     componentDidUpdate(prevProps) {
         if(this.props.location.state.genre !== prevProps.location.state.genre) {
             this.setState({genres: []});
-            axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre)
+            axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre + '&id=' + this.state.id)
                 .then(res => {                
-                    this.setState({genres: res.data}) 
+                    this.setState({genres: res.data.genres}) 
                 })
         }
     }
@@ -47,7 +48,7 @@ export default class Search extends Component {
             return 0;
           }).map(genre => {
             return(
-                <Genre key={genre._id} genre={genre} toShow={'albums'}/>
+                <Genre key={genre._id} genre={genre} id={this.state.id} toShow={'albums'}/>
             )
         });
         
@@ -73,7 +74,7 @@ export default class Search extends Component {
             return 0;
           }).map(genre => {
             return(
-                <Genre key={genre._id} genre={genre} toShow={'artists'}/>
+                <Genre key={genre._id} genre={genre} id={this.state.id} toShow={'artists'}/>
             )
         });
         

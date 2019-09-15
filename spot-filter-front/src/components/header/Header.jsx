@@ -30,7 +30,7 @@ class Header extends Component {
         if(event.key === "Enter") {            
             this.props.history.push({
                 pathname: '/search',
-                state: {genre: this.state.search}
+                state: {genre: this.state.search, id: this.state.id}
             });
         }
     }
