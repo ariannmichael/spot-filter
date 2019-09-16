@@ -10,9 +10,6 @@ Genre.createCollection();
 var LIMIT_ALBUMS = 2;
 var OFF_SET_ALBUMS = 0;
 
-var displayName = '';
-var id = '';
-let newUser = new User();
 
 var scopes = ['user-library-read']
 
@@ -47,22 +44,33 @@ exports.callback = async function(req, res) {
 
     User.find({_id: id}, (err, result) => {
         if(result.length === 0) {
+            newUser = new User();
             newUser._id = id;
             newUser.display_name = displayName;
             newUser.save();
         }
     })
     
-    res.redirect('http://localhost:3000/home');
+    res.redirect('http://localhost:3000/home/' + id);
   })
 }
 
 exports.getDisplayName = async function(req, res) {
-    res.json({displayName, id});
+    const userID = req.query.id;
+
+    if(userID.length > 0) {
+        User.find({_id: userID}, (err, user) => {
+            const displayName = user[0].display_name;
+            
+            res.json({displayName})
+        })
+    }
+
 }
 
 exports.logout = async function(req, res) {
-    // mongoose.connection.db.dropDatabase();
+    mongoose.connection.db.dropDatabase();
+    // newUser = new User();
 }
 
 exports.fillByGenre = async function(req, res) {    
@@ -71,15 +79,16 @@ exports.fillByGenre = async function(req, res) {
         offset: OFF_SET_ALBUMS
     })
 
+    const userID = req.query.id;
     const albums = await response.body.items;
     
     for(const album of albums) {
-        const newArtist = await getArtist(album);
+        const newArtist = await getArtist(album, userID);
         if(newArtist) {
             const genres = newArtist.genres;
-            const newAlbum = await saveAlbum(album, genres);
+            const newAlbum = await saveAlbum(album, genres, userID);
             for(const genre of genres) {
-                await saveGenre(genre, newAlbum._id, newArtist._id)
+                await saveGenre(genre, newAlbum._id, newArtist._id, userID)
             }   
         }
     }
@@ -89,7 +98,7 @@ exports.fillByGenre = async function(req, res) {
 }
 
 
-async function saveAlbum(album, genres) {
+async function saveAlbum(album, genres, userID) {
     let newAlbum = new Album(album);
     newAlbum.album.genres = genres;
     
@@ -100,19 +109,19 @@ async function saveAlbum(album, genres) {
         if(element.length == 0) {
             newAlbum.save();
             const albumID = newAlbum._id;
-            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
+            User.findOneAndUpdate({_id: userID}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
             return newAlbum;
         } else {
             const albumID = element[0]._id;
-            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
+            User.findOneAndUpdate({_id: userID}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
         }
     })
 
 }
 
-async function saveGenre(genre, newAlbumID, newArtistID) {
+async function saveGenre(genre, newAlbumID, newArtistID, userID) {
     //save genre
     
     return await Genre.find({genre}, (err, results) => {
@@ -121,48 +130,48 @@ async function saveGenre(genre, newAlbumID, newArtistID) {
             results[0].artistsID.push(newArtistID);
             results[0].save();
             const genreID = results[0]._id;
-            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
+            User.findOneAndUpdate({_id: userID}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
         } else {
             let newGenre = new Genre({genre, albumsID: newAlbumID, artistsID: newArtistID});
             newGenre.save();
             const genreID = newGenre._id;
-            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
+            User.findOneAndUpdate({_id: userID}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
         }
     })
     
 }
 
-function getArtist(item) {
+function getArtist(item, userID) {
     let artist = item.album.artists;
     artistID = artist[0].id;
     
-    return getArtistInfo(artistID).then(res => res).catch(err => console.log(err));
+    return getArtistInfo(artistID, userID).then(res => res).catch(err => console.log(err));
 }
 
-async function getArtistInfo(artistID) {
+async function getArtistInfo(artistID, userID) {
     return await spotifyApi.getArtist(artistID).then(data => {
         const artist = data.body;    
         let newArtist = new Artist(artist);    
 
-        return saveArtist(newArtist).then(res => res).catch(err => console.log(err));
+        return saveArtist(newArtist, userID).then(res => res).catch(err => console.log(err));
     }).catch(err => console.log(err)); 
 }
 
 
-async function saveArtist(newArtist) {
+async function saveArtist(newArtist, userID) {
     return await Artist.find({name: newArtist.name}, (err, us) => {}).then(element => {
         // artist doesn't exist on db
         if(element.length == 0) {
             newArtist.save();
             const artistID = newArtist._id;
-            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
+            User.findOneAndUpdate({_id: userID}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
             return newArtist;
         } else {
             const artistID = element[0]._id;
-            User.findOneAndUpdate({_id: newUser._id}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
+            User.findOneAndUpdate({_id: userID}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
         }
     })
