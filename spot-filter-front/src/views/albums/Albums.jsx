@@ -28,7 +28,7 @@ export default class Albums extends Component {
 
     async componentDidMount() {
         for (let i = 0; i < 5; i++) {
-            axios.get('http://localhost:8080/fillByGenre').then(res => {
+            axios.get('http://localhost:8080/fillByGenre?id=' + this.state.id).then(res => {
                 //axios get genres
                 axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
                     .then(result => {                
@@ -43,11 +43,16 @@ export default class Albums extends Component {
         if(this.props !== prevProps) {
             this.setState({loading: true});
 
-            await axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
-                .then(result => {                
-                    this.setState({genres: result.data.genres});
-                    this.setState({loading: false});
-                });
+            for (let i = 0; i < 5; i++) {
+                await axios.get('http://localhost:8080/fillByGenre?id=' + this.state.id).then(res => {
+                    //axios get genres
+                    axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
+                        .then(result => {                
+                            this.setState({genres: result.data.genres});
+                            this.setState({loading: false});
+                        });
+                })            
+            }
         }
     }
 

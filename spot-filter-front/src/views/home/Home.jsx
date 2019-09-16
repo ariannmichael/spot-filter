@@ -1,6 +1,5 @@
 import React from 'react';
 import './Home.css';
-import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 export default props => (
@@ -8,13 +7,13 @@ export default props => (
         <div className="spotfilter-text">
             <p className="spotfilter-text-primary">Spotfilter</p>
             <p className="spotfilter-text-secondary">Choose between yours: 
-            <Link to="/albums" className="home-link"  variant="outline-none">
+            <span className="home-link"  variant="outline-none">
                 Albums
-            </Link>
+            </span>
             or
-            <Link to="/artists" className="home-link"  variant="outline-none">
+            <span className="home-link"  variant="outline-none">
                 Artists
-            </Link>
+            </span>
             </p>
         </div>
         <br/>

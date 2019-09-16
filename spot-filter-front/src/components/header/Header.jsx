@@ -15,9 +15,11 @@ class Header extends Component {
     }
 
     async componentDidMount() {
-        await axios.get('http://localhost:8080/users/displayname')
+        const userID = this.props.location.pathname.split('/')[2];
+        this.setState({id: userID});        
+
+        await axios.get('http://localhost:8080/users/displayname?id=' + userID)
             .then(data => {
-                this.setState({id: data.data.id});
                 this.setState({displayName: data.data.displayName});
             });        
     }

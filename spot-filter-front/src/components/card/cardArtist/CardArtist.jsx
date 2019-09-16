@@ -13,9 +13,6 @@ export default class CardAlbum extends Component {
     }
 
     render() {
-        console.log(this.props);
-        
-
         return (
             <div className="card-artist">
                 <div className="card-artist__img">

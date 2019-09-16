@@ -26,26 +26,33 @@ export default class Artists extends Component {
         this.handleLoading = this.handleLoading.bind(this);
     }
 
-    async componentDidMount() {        
-        axios.get('http://localhost:8080/fillByGenre').then(res => {
-            //axios get genres
-            axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
-                .then(result => {                
-                    this.setState({genres: result.data.genres});
-                    this.setState({loading: false});
-                });
-        })
+    async componentDidMount() { 
+        for(let i = 0; i < 5; i++) {
+            axios.get('http://localhost:8080/fillByGenre?id=' + this.state.id).then(res => {
+                //axios get genres
+                axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
+                    .then(result => {                
+                        this.setState({genres: result.data.genres});
+                        this.setState({loading: false});
+                    });
+            })
+        }
     }
 
     async componentDidUpdate(prevProps) {
         if(this.props !== prevProps) {
             this.setState({loading: true});
 
-            await axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
-                .then(result => {                
-                    this.setState({genres: result.data.genres});
-                    this.setState({loading: false});
-                });
+            for(let i = 0; i < 5; i++) {
+                await axios.get('http://localhost:8080/fillByGenre?id=' + this.state.id).then(res => {
+                    //axios get genres
+                    axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
+                        .then(result => {                
+                            this.setState({genres: result.data.genres});
+                            this.setState({loading: false});
+                        });
+                })
+            }
         }
     }
 
