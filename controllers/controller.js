@@ -15,9 +15,9 @@ var scopes = ['user-library-read']
 
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
-  clientId: '35f8a82afeae4b46ad0833e742bf0c45',
-  clientSecret: '181a34b83d43458c9e8af848524b70da',
-  redirectUri: 'http://localhost:8080/callback'
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: process.env.REDIRECT_URI
 });
 
 exports.login = async function(req, res) {
@@ -51,7 +51,7 @@ exports.callback = async function(req, res) {
         }
     })
     
-    res.redirect('http://localhost:3000/home/' + id);
+    res.redirect(process.env.FRONT_REDIRECT + id);
   })
 }
 
