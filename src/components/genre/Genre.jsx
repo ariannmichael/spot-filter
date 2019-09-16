@@ -26,11 +26,11 @@ export default class CardGenre extends Component {
         const genre = this.state.genre;
 
         if(this.props.toShow === 'albums') {
-            axios.get('http://localhost:8080/album/getAlbumsByGenre?genre_id=' + genre._id + '&id=' + this.state.id)
+            axios.get(process.env.REACT_APP_ALBUM + genre._id + '&id=' + this.state.id)
                 .then(res => this.setState({albumsByGenre: res.data}));
 
         } else if(this.props.toShow === 'artists') {
-            axios.get('http://localhost:8080/artist/getArtistsByGenre?genre_id=' + genre._id + '&id=' + this.state.id)
+            axios.get(process.env.REACT_APP_ARTIST + genre._id + '&id=' + this.state.id)
                 .then(res => this.setState({artistsByGenre: res.data}));
         }
         

@@ -18,7 +18,7 @@ class Header extends Component {
         const userID = this.props.location.pathname.split('/')[2];
         this.setState({id: userID});        
 
-        await axios.get('http://localhost:8080/users/displayname?id=' + userID)
+        await axios.get(process.env.REACT_APP_DISPLAY_NAME + userID)
             .then(data => {
                 this.setState({displayName: data.data.displayName});
             });        
@@ -51,7 +51,7 @@ class Header extends Component {
         this.setState({displayName: ''})
         this.setState({id: ''})
 
-        axios.get('http://localhost:8080/logout')
+        axios.get(process.env.REACT_APP_LOGOUT)
         this.props.history.push({
             pathname: '/login'
         });
