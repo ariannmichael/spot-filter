@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+require('dotenv').config()
+
 
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 
 
-mongoose.connect(MONGO_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 mongoose.connection.once('open', () => {
