@@ -60,9 +60,11 @@ exports.getDisplayName = async function(req, res) {
 
     if(userID.length > 0) {
         User.find({_id: userID}, (err, user) => {
-            const displayName = user[0].display_name;
-            
-            res.json({displayName})
+            if(user.length > 0) {
+                const displayName = user[0].display_name;
+                
+                res.json({displayName})
+            }
         })
     }
 
