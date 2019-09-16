@@ -16,7 +16,7 @@ var scopes = ['user-library-read']
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
   clientId: '35f8a82afeae4b46ad0833e742bf0c45',
-  clientSecret: '181a34b83d43458c9e8af848524b70da',
+  clientSecret: '7ad4ad44ee4146bc98fb8b33e726df12',
   redirectUri: 'http://localhost:8080/callback'
 });
 
@@ -60,9 +60,13 @@ exports.getDisplayName = async function(req, res) {
 
     if(userID.length > 0) {
         User.find({_id: userID}, (err, user) => {
-            const displayName = user[0].display_name;
-            
-            res.json({displayName})
+            if(user.length > 0) {
+                console.log(user);
+                
+                const displayName = user[0].display_name;
+                
+                res.json({displayName})
+            }
         })
     }
 
