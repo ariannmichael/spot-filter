@@ -69,7 +69,7 @@ exports.getDisplayName = async function(req, res) {
 }
 
 exports.logout = async function(req, res) {
-    mongoose.connection.db.dropDatabase();
+    // mongoose.connection.db.dropDatabase();
     // newUser = new User();
 }
 
