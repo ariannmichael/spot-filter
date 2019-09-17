@@ -61,8 +61,6 @@ exports.getDisplayName = async function(req, res) {
     if(userID.length > 0) {
         User.find({_id: userID}, (err, user) => {
             if(user.length > 0) {
-                console.log(user);
-                
                 const displayName = user[0].display_name;
                 
                 res.json({displayName})
@@ -73,7 +71,7 @@ exports.getDisplayName = async function(req, res) {
 }
 
 exports.logout = async function(req, res) {
-    mongoose.connection.db.dropDatabase();
+    // mongoose.connection.db.dropDatabase();
     // newUser = new User();
 }
 
