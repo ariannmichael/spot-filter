@@ -14,6 +14,11 @@
     top: 2vh;
 }
 
+.heading-name:hover {
+    text-decoration: none;
+    color: rgb(29, 144, 70);
+}
+
 .heading-name h1 {
     font-size: 6vh;
 }

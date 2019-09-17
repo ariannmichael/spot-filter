@@ -58,14 +58,15 @@ class Header extends Component {
     }
 
     render() {
+        const home = this.state.id ? "/home/" + this.state.id : "/";
         return(
             <header className="header">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-2">
-                            <div className="heading-name">
+                            <Link to={home} className="heading-name">
                                 <h1>Spotfilter</h1>
-                            </div>
+                            </Link>
                         </div>
                         <ButtonToolbar className="header-button-toolbar">
                             <div className="col-lg-5">
