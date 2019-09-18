@@ -10,18 +10,24 @@ class Header extends Component {
         this.state = {
             search: '',
             displayName: '',
-            id: ''
+            id: '',
+            showButton: false
         }
+
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     async componentDidMount() {
         const userID = this.props.location.pathname.split('/')[2];
-        this.setState({id: userID});        
-
-        await axios.get(process.env.REACT_APP_DISPLAY_NAME + userID)
-            .then(data => {
-                this.setState({displayName: data.data.displayName});
-            });        
+        if(userID) {
+            this.setState({id: userID});        
+            this.setState({showButton: true});
+    
+            await axios.get(process.env.REACT_APP_DISPLAY_NAME + userID)
+                .then(data => {
+                    this.setState({displayName: data.data.displayName});
+                });        
+        }
     }
 
     handleChangeSearch = event => {
@@ -47,11 +53,20 @@ class Header extends Component {
         
     }
 
+    handleLogout() {
+        return(
+            <DropdownButton className="dropdown-button" variant="dark" title={this.state.displayName}>
+                <Dropdown.Item className="logout-button" onClick={this.logout}>
+                    Logout
+                </Dropdown.Item>
+            </DropdownButton>
+        );
+    }
+
     logout = () => {
         this.setState({displayName: ''})
         this.setState({id: ''})
 
-        axios.get(process.env.REACT_APP_LOGOUT)
         this.props.history.push({
             pathname: '/login'
         });
@@ -89,11 +104,7 @@ class Header extends Component {
                                 </Button>
                             </div>
                             <div className="col-lg-1">
-                                <DropdownButton className="dropdown-button" variant="dark" title={this.state.displayName}>
-                                    <Dropdown.Item className="logout-button" onClick={this.logout}>
-                                        Logout
-                                    </Dropdown.Item>
-                                </DropdownButton>
+                                {this.state.showButton && this.handleLogout()}
                             </div>
                         </ButtonToolbar>
                     </div>
