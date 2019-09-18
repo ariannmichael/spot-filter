@@ -58,21 +58,19 @@ exports.callback = async function(req, res) {
 exports.getDisplayName = async function(req, res) {
     const userID = req.query.id;
 
-    if(userID.length > 0) {
-        User.find({_id: userID}, (err, user) => {
-            if(user.length > 0) {
-                const displayName = user[0].display_name;
-                
-                res.json({displayName})
-            }
-        })
+    if(userID) {
+        if(userID.length > 0) {
+            User.find({_id: userID}, (err, user) => {
+                if(user.length > 0) {
+                    const displayName = user[0].display_name;
+                    
+                    res.json({displayName})
+                }
+            })
+        }
     }
 
-}
 
-exports.logout = async function(req, res) {
-    // mongoose.connection.db.dropDatabase();
-    // newUser = new User();
 }
 
 exports.fillByGenre = async function(req, res) {    
