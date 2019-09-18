@@ -64,8 +64,9 @@ class Header extends Component {
     }
 
     logout = () => {
-        this.setState({displayName: ''})
-        this.setState({id: ''})
+        this.setState({displayName: ''});
+        this.setState({id: ''});
+        this.setState({showButton: false});
 
         this.props.history.push({
             pathname: '/login'
