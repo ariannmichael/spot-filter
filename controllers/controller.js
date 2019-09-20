@@ -7,7 +7,7 @@ var User = require('../models/user.model');
 var SpotifyWebApi = require('spotify-web-api-node');
 Genre.createCollection();
 
-var LIMIT_ALBUMS = 2;
+var LIMIT_ALBUMS = 5;
 var OFF_SET_ALBUMS = 0;
 
 
