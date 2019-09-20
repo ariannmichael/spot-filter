@@ -9,12 +9,12 @@ export default props => (
                     <p className="footer-name">Made by Ariann Michael</p>
                 </div>
                 <div className="col-lg-2">
-                    <button className="btn btn-footer" href="https://github.com/ariannmichael">
+                    <a className="btn btn-footer" href="https://github.com/ariannmichael">
                         <i className="fab fa-github fa-2x"></i>
-                    </button>
-                    <button className="btn btn-footer" href="https://www.linkedin.com/in/ariann-michael-farias-96258711a/">
+                    </a>
+                    <a className="btn btn-footer" href="https://www.linkedin.com/in/ariann-michael-farias-96258711a/">
                         <i className="fab fa-linkedin fa-2x"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
