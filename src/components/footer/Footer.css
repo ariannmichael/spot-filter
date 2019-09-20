@@ -4,9 +4,22 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 15vh;
 }
 
-.footer-name {
+.footer-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.footer {
+    margin-left: 15vh
+}
+
+.footer-name-item {
     font-family: 'Lato', sans-serif;
     color: #1DB954;
     font-weight: 600;
@@ -15,13 +28,17 @@ footer {
     margin-right: 5rem;
 }
 
+.footer-buttons {
+    margin-right: 25vh;
+}
+
 .btn-footer {
     margin-top: 1rem;
     margin-right: 1rem;
 }
 
 .btn-footer button {
-    width: 10rem;
+    width: 10vh;
 }
 
 .btn-footer button:focus {
