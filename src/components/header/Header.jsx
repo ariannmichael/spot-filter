@@ -22,8 +22,8 @@ class Header extends Component {
         if(userID) {
             this.setState({id: userID});        
             this.setState({showButton: true});
-    
-            await axios.get(process.env.REACT_APP_DISPLAY_NAME + userID)
+
+            await axios.get('http://localhost:8080/users/displayname?id=' + userID)
                 .then(data => {
                     this.setState({displayName: data.data.displayName});
                 });        
@@ -64,9 +64,8 @@ class Header extends Component {
     }
 
     logout = () => {
-        this.setState({displayName: ''});
-        this.setState({id: ''});
-        this.setState({showButton: false});
+        this.setState({displayName: ''})
+        this.setState({id: ''})
 
         this.props.history.push({
             pathname: '/login'
@@ -77,38 +76,37 @@ class Header extends Component {
         const home = this.state.id ? "/home/" + this.state.id : "/";
         return(
             <header className="header">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-2">
-                            <Link to={home} className="heading-name">
-                                <h1>Spotfilter</h1>
+                <div className="header--items">
+                    
+                    <div className="heading-name">
+                        <Link to={home} className="heading-name--item">
+                            <h1>Spotfilter</h1>
+                        </Link>
+                    </div>
+                    <ButtonToolbar className="header-button-toolbar">
+                        <div className="header-links">
+                            <Link to={{ pathname: "/albums", state: {id: this.state.id} }} className="header-link"  variant="outline-none">
+                                Albums
+                            </Link>
+                            <Link to={{ pathname:"/artists", state: {id: this.state.id} }} className="header-link"  variant="outline-none">
+                                Artists
                             </Link>
                         </div>
-                        <ButtonToolbar className="header-button-toolbar">
-                            <div className="col-lg-5">
-                                <Link to={{ pathname: "/albums", state: {id: this.state.id} }} className="header-link"  variant="outline-none">
-                                    Albums
-                                </Link>
-                                <Link to={{ pathname:"/artists", state: {id: this.state.id} }} className="header-link"  variant="outline-none">
-                                    Artists
-                                </Link>
-                            </div>
-                            <div className="col-lg-2">
-                                <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
-                                <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} variant="outline-none">
-                                    <i className="fas fa-search"></i>
-                                </Link>
-                            </div>
-                            <div className="col-lg-2">
-                                <Button className="plus-button" variant="outline-dark" title="More Albums and Artists" onClick={this.moreAlbums}>
-                                    <i className="fas fa-plus"></i>
-                                </Button>
-                            </div>
-                            <div className="col-lg-1">
-                                {this.state.showButton && this.handleLogout()}
-                            </div>
-                        </ButtonToolbar>
-                    </div>
+                        <div className="header-plus-button">
+                            <Button className="plus-button" variant="outline-dark" title="More Albums and Artists" onClick={this.moreAlbums}>
+                                <i className="fas fa-plus"></i>
+                            </Button>
+                        </div>
+                        <div className="header-search">
+                            <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
+                            <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} variant="outline-none">
+                                <i className="fas fa-search"></i>
+                            </Link>
+                        </div>
+                        <div className="header-logout-button">
+                            {this.state.showButton && this.handleLogout()}
+                        </div>
+                    </ButtonToolbar>
                 </div>
             </header>
         );

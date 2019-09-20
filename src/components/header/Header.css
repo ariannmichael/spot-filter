@@ -6,27 +6,36 @@
     min-width: 100vh;
 }
 
-.heading-name {
-    position: absolute;
+.header--items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+.heading-name--item {
     color: #1DB954;
+    margin-left: 10vh;
     font-weight: 700;
-    right: 3vh;
-    top: 2vh;
+    margin-right: 25vh;
 }
 
-.heading-name:hover {
+.heading-name--item:hover {
     text-decoration: none;
-    color: rgb(29, 144, 70);
+    color: #1DB954;
 }
 
-.heading-name h1 {
+.heading-name--item h1 {
     font-size: 6vh;
 }
 
 .header-button-toolbar {
-    position: absolute;
-    left: 72vh;
-    top: 3vh;
+    
+}
+
+.header-links {
+    margin-right: 6vh;
 }
 
 .header-link {
@@ -58,6 +67,10 @@
     color: #ffffff;
 }
 
+.header-plus-button {
+    margin-right: 7vh;
+}
+
 .plus-button {
     border-radius: 100%;
     background-color: #1DB954;
@@ -69,26 +82,31 @@
     background-color: rgb(29, 144, 70);
 }
 
+.header-search {
+    margin-right: 5vh;
+}
 .search-form {
     width: 25vh;
     border-radius: 100px;
     border: none;
-    position: absolute;
-    top: 0.1vh;
-    left: 30vh;
+    position: relative;
     padding-left: 2.5rem;
 }
 
 .fa-search {
     color: black;
     position: absolute;
-    left: 32vh;
-    top: 1.5vh;
+    top: 4vh;
+    margin-left: 1.2vh;
 }
 
 
 .dropdown-button {
-    left: 40vh;
+    
+}
+
+.header-logout-button {
+    margin-right: 5vh;
 }
 
 .logout-button:focus {
