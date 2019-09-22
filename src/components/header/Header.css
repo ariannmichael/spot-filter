@@ -2,8 +2,8 @@
     background-color: #121212;
     height: 10vh;
     margin-top: 0;
-    position: relative;
-    min-width: 100vh;
+    position: fixed;
+    width: 100%;
 }
 
 .header--items {
@@ -28,10 +28,6 @@
 
 .heading-name--item h1 {
     font-size: 6vh;
-}
-
-.header-button-toolbar {
-    
 }
 
 .header-links {
@@ -100,11 +96,6 @@
     margin-left: 1.2vh;
 }
 
-
-.dropdown-button {
-    
-}
-
 .header-logout-button {
     margin-right: 5vh;
 }
@@ -112,4 +103,50 @@
 .logout-button:focus {
     background-color: #121212;
     color: #ffffff;
+}
+
+.bm-burger-button {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .header-button-toolbar {
+        display: none;
+    }
+    
+    .header--items {
+        justify-content: left;
+        margin-left: 2vh;
+    }
+
+    .search-form {
+        width: 25vh;
+        margin-top: 2vh;
+        margin-bottom: 4vh;
+    }
+
+    .fa-search {
+        position: absolute;
+        top: 10vh;
+        left: 5.5vh;
+    }
+
+    .header-link {
+        margin-bottom: 4vh;
+        text-align: left;
+    }
+
+    .plus-button {
+        margin-right: 20vh;
+        margin-top: 2vh;
+    }
+
+    .logout-button-menu {
+        font-size: 1.2rem;
+        margin-top: 5vh;
+    }
+
+    .bm-burger-button {
+        display: flex;
+    }
 }

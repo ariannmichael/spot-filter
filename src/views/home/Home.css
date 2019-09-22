@@ -51,13 +51,21 @@
     display: inline-block;
 }
 
-.plus-button {
+.plus-button-home {
     border-radius: 100%;
     background-color: #1DB954;
     color: #ffffff;
     margin-left: 1vh;
 }
 
-.plus-button:hover {
+.plus-button-home:hover {
     background-color: rgb(29, 144, 70);
+}
+
+@media (max-width: 600px) {
+    .plus-button-home {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
 }

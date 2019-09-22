@@ -3,6 +3,53 @@ import './Header.css';
 import { ButtonToolbar, Form, Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
+import { slide as Menu } from 'react-burger-menu';  
+
+
+var styles = {
+    bmBurgerButton: {
+      position: 'fixed',
+      width: '36px',
+      height: '30px',
+      right: '36px',
+      top: '3.5vh'
+    },
+    bmBurgerBars: {
+      background: '#1DB954'
+    },
+    bmBurgerBarsHover: {
+      background: '#a90000'
+    },
+    bmCrossButton: {
+      height: '24px',
+      width: '24px'
+    },
+    bmCross: {
+      background: '#bdc3c7'
+    },
+    bmMenuWrap: {
+      position: 'fixed',
+      height: '100%'
+    },
+    bmMenu: {
+      background: '#121212',
+      padding: '2.5em 1.5em 0',
+      fontSize: '1.15em'
+    },
+    bmMorphShape: {
+      fill: '#373a47'
+    },
+    bmItemList: {
+      color: '#b8b7ad',
+      padding: '0.8em'
+    },
+    bmItem: {
+      display: 'inline-block'
+    },
+    bmOverlay: {
+      background: 'rgba(0, 0, 0, 0.3)'
+    }
+  }
 
 class Header extends Component {
     constructor(props) {
@@ -11,10 +58,12 @@ class Header extends Component {
             search: '',
             displayName: '',
             id: '',
-            showButton: false
+            showButton: false,
+            menuOpen: false
         }
 
         this.handleLogout = this.handleLogout.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
     }
 
     async componentDidMount() {
@@ -51,6 +100,7 @@ class Header extends Component {
             });
         } 
         
+        this.closeMenu();
     }
 
     handleLogout() {
@@ -70,6 +120,16 @@ class Header extends Component {
         this.props.history.push({
             pathname: '/login'
         });
+
+        this.closeMenu();
+    }
+
+    handleStateChange(state) {
+        this.setState({menuOpen: state.isOpen});
+    }
+
+    closeMenu() {
+        this.setState({menuOpen: false});
     }
 
     render() {
@@ -107,6 +167,27 @@ class Header extends Component {
                             {this.state.showButton && this.handleLogout()}
                         </div>
                     </ButtonToolbar>
+                    <Menu right styles={styles} className="menu-burger" isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
+                            <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
+                            <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
+                                <i className="fas fa-search"></i>
+                            </Link>
+                            <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
+                                <i className="fas fa-search-"></i>
+                            </Link>
+                            <Link to={{ pathname: "/albums", state: {id: this.state.id} }} className="header-link" onClick={() => this.closeMenu()} variant="outline-none">
+                                Albums
+                            </Link>
+                            <Link to={{ pathname:"/artists", state: {id: this.state.id} }} className="header-link" onClick={() => this.closeMenu()} variant="outline-none">
+                                Artists
+                            </Link>
+                            <Button className="plus-button" variant="outline-dark" title="More Albums and Artists" onClick={this.moreAlbums}>
+                                <i className="fas fa-plus"></i>
+                            </Button>
+                            <Button className="logout-button-menu" onClick={this.logout} variant="secondary">
+                                Logout
+                            </Button>
+                    </Menu>
                 </div>
             </header>
         );
