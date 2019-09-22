@@ -8,11 +8,10 @@ import { slide as Menu } from 'react-burger-menu';
 
 var styles = {
     bmBurgerButton: {
-      position: 'fixed',
-      width: '36px',
-      height: '30px',
-      right: '36px',
-      top: '3.5vh'
+        position: 'relative',
+        width: '36px',
+        height: '30px',
+        marginLeft: '10vh'
     },
     bmBurgerBars: {
       background: '#1DB954'
