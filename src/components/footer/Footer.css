@@ -56,3 +56,18 @@ footer {
 .btn-footer:hover i {
     color: #121212;
 }
+
+@media (max-width: 600px) {
+    .footer-name-item {
+        font-size: 1rem;
+        margin-right: 2rem;
+    }
+
+    .btn-footer button {
+        width: 7vh;
+    }
+
+    .footer-buttons {
+        display: flex;
+    }
+}
