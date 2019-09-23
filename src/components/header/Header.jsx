@@ -166,7 +166,7 @@ class Header extends Component {
                             {this.state.showButton && this.handleLogout()}
                         </div>
                     </ButtonToolbar>
-                    <Menu right styles={styles} className="menu-burger" isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
+                    <Menu right noOverlay noTransition disableAutoFocus styles={styles} className="menu-burger" isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
                             <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
                             <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
                                 <i className="fas fa-search"></i>
