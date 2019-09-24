@@ -127,6 +127,7 @@
         width: 25vh;
         margin-top: 2vh;
         margin-bottom: 4vh;
+        padding-left: 1rem;
     }
 
     .fa-search {

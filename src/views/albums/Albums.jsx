@@ -27,24 +27,9 @@ export default class Albums extends Component {
     }
 
     async componentDidMount() {
-        for (let i = 0; i < 5; i++) {
-            axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
-                //axios get genres
-                axios.get(process.env.REACT_APP_GENRE + this.state.id)
-                    .then(result => {                
-                        this.setState({genres: result.data.genres});
-                        this.setState({loading: false});
-                    });
-            })            
-        }
-    }
-
-    async componentDidUpdate(prevProps) {
-        if(this.props !== prevProps) {
-            this.setState({loading: true});
-
+        if(this.state.id) {
             for (let i = 0; i < 5; i++) {
-                await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
+                axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                     //axios get genres
                     axios.get(process.env.REACT_APP_GENRE + this.state.id)
                         .then(result => {                
@@ -52,6 +37,25 @@ export default class Albums extends Component {
                             this.setState({loading: false});
                         });
                 })            
+            }
+        }
+    }
+
+    async componentDidUpdate(prevProps) {
+        if(this.props !== prevProps) {
+            this.setState({loading: true});
+
+            if(this.state.id) {
+                for (let i = 0; i < 5; i++) {
+                    await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
+                        //axios get genres
+                        axios.get(process.env.REACT_APP_GENRE + this.state.id)
+                            .then(result => {                
+                                this.setState({genres: result.data.genres});
+                                this.setState({loading: false});
+                            });
+                    })            
+                }
             }
         }
     }

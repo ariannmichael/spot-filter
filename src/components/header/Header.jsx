@@ -169,9 +169,6 @@ class Header extends Component {
                     <Menu right noOverlay noTransition disableAutoFocus styles={styles} className="menu-burger" isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
                             <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
                             <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
-                                <i className="fas fa-search"></i>
-                            </Link>
-                            <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
                                 <i className="fas fa-search-"></i>
                             </Link>
                             <Link to={{ pathname: "/albums", state: {id: this.state.id} }} className="header-link" onClick={() => this.closeMenu()} variant="outline-none">
