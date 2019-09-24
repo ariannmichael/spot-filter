@@ -5,10 +5,6 @@ import SpotifyLogo from '../../assets/Spotify-logo-green.png';
 import axios from 'axios';
 
 export default class Login extends Component {
-    componentDidMount() {
-        axios.get(process.env.REACT_APP_LOGOUT)
-    }
-
     login = () => {
         window.location.replace(process.env.REACT_APP_LOGIN)
     }
