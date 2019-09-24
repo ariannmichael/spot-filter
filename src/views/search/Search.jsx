@@ -16,7 +16,7 @@ export default class Search extends Component {
     }
 
     componentDidMount() {        
-        axios.get(process.env.REACT_APP_SEARCH + this.props.location.state.genre + '&id=' + this.state.id)
+        axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre + '&id=' + this.state.id)
             .then(res => {
                 this.setState({genres: res.data.genres}) 
             })
@@ -26,7 +26,7 @@ export default class Search extends Component {
     componentDidUpdate(prevProps) {
         if(this.props.location.state.genre !== prevProps.location.state.genre) {
             this.setState({genres: []});
-            axios.get(process.env.REACT_APP_SEARCH + this.props.location.state.genre + '&id=' + this.state.id)
+            axios.get('http://localhost:8080/genre/getGenreID?genre=' + this.props.location.state.genre + '&id=' + this.state.id)
                 .then(res => {                
                     this.setState({genres: res.data.genres}) 
                 })

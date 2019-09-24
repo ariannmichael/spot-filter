@@ -6,11 +6,11 @@ import axios from 'axios';
 
 export default class Login extends Component {
     componentDidMount() {
-        axios.get(process.env.REACT_APP_LOGOUT)
+        axios.get('http://localhost:8080/logout')
     }
 
     login = () => {
-        window.location.replace(process.env.REACT_APP_LOGIN)
+        window.location.replace('http://localhost:8080/login')
     }
 
     render() {

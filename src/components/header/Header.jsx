@@ -8,10 +8,10 @@ import { slide as Menu } from 'react-burger-menu';
 
 var styles = {
     bmBurgerButton: {
-        position: 'relative',
-        width: '36px',
-        height: '30px',
-        marginLeft: '10vh'
+      position: 'relative',
+      width: '36px',
+      height: '30px',
+      marginLeft: '10vh'
     },
     bmBurgerBars: {
       background: '#1DB954'
@@ -166,8 +166,11 @@ class Header extends Component {
                             {this.state.showButton && this.handleLogout()}
                         </div>
                     </ButtonToolbar>
-                    <Menu right noOverlay noTransition disableAutoFocus styles={styles} className="menu-burger" isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
+                    <Menu right noOverlay noTransition  styles={styles} className="menu-burger" isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
                             <Form.Control className="search-form" type="text" placeholder="Search" onChange={this.handleChangeSearch} onKeyPress={this.handleKeyPress}/>
+                            <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
+                                <i className="fas fa-search"></i>
+                            </Link>
                             <Link to={{ pathname: "/search", state:{genre: this.state.search, id: this.state.id} }} onClick={() => this.closeMenu()} variant="outline-none">
                                 <i className="fas fa-search-"></i>
                             </Link>
