@@ -29,7 +29,7 @@ export default class Albums extends Component {
     async componentDidMount() {
         if(this.state.id) {
             for (let i = 0; i < 5; i++) {
-                axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
+                await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                     //axios get genres
                     axios.get(process.env.REACT_APP_GENRE + this.state.id)
                         .then(result => {                
