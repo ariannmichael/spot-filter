@@ -71,7 +71,7 @@ class Header extends Component {
             this.setState({id: userID});        
             this.setState({showButton: true});
 
-            await axios.get('http://localhost:8080/users/displayname?id=' + userID)
+            await axios.get(process.env.REACT_APP_DISPLAY_NAME + userID)
                 .then(data => {
                     this.setState({displayName: data.data.displayName});
                 });        

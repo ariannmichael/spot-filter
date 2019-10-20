@@ -8,7 +8,6 @@ export default class Login extends Component {
     componentDidMount() {
         axios.get('http://localhost:8080/logout')
     }
-
     login = () => {
         window.location.replace('http://localhost:8080/login')
     }
