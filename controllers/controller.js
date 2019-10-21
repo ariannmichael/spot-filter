@@ -84,6 +84,7 @@ exports.fillByGenre = async function(req, res) {
     
     for(const album of albums) {
         const newArtist = await getArtist(album, userID);
+        
         if(newArtist) {
             const genres = newArtist.genres;
             const newAlbum = await saveAlbum(album, genres, userID);
@@ -116,6 +117,7 @@ async function saveAlbum(album, genres, userID) {
             const albumID = element[0]._id;
             User.findOneAndUpdate({_id: userID}, {$addToSet: {albumsID: albumID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
+            return newAlbum;
         }
     })
 
@@ -135,7 +137,7 @@ async function saveGenre(genre, newAlbumID, newArtistID, userID) {
         } else {
             let newGenre = new Genre({genre, albumsID: newAlbumID, artistsID: newArtistID});
             newGenre.save();
-            const genreID = newGenre._id;
+            const genreID = newGenre._id;            
             User.findOneAndUpdate({_id: userID}, {$addToSet: {genresID: genreID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
         }
@@ -173,6 +175,7 @@ async function saveArtist(newArtist, userID) {
             const artistID = element[0]._id;
             User.findOneAndUpdate({_id: userID}, {$addToSet: {artistsID: artistID}}, {$upsert: true, new: true, runValidators: true})
                 .catch(err => console.log(err));
+            return newArtist;
         }
     })
 }
