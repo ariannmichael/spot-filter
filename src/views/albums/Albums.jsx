@@ -46,9 +46,9 @@ export default class Albums extends Component {
             this.setState({loading: true});
 
             for (let i = 0; i < 5; i++) {
-                await axios.get('http://localhost:8080/fillByGenre?id=' + this.state.id).then(res => {
+                await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                     //axios get genres
-                    axios.get('http://localhost:8080/genre/getGenres?id=' + this.state.id)
+                    axios.get(process.env.REACT_APP_GENRE + this.state.id)
                         .then(result => {                
                             this.setState({genres: result.data.genres});
                             this.setState({loading: false});
