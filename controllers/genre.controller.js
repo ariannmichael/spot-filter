@@ -6,12 +6,14 @@ var User = require('../models/user.model');
 exports.getGenres = async function(req, res) {
     const userID = req.query.id;
     
-    User.find({_id: userID}, (err, user) => {       
-        let genresID = user[0].genresID;
-
-        Genre.find({_id: {$in: genresID}}, (err, us) => {})
-            .then(genres => res.json({genres}))
-            .catch(err => console.log('Something went wrong with Genres',err));
+    User.find({_id: userID}, (err, user) => {
+        if(user[0]) {
+            let genresID = user[0].genresID;
+    
+            Genre.find({_id: {$in: genresID}}, (err, us) => {})
+                .then(genres => res.json({genres}))
+                .catch(err => console.log('Something went wrong with Genres',err));
+        }       
     });
 }
 
@@ -21,11 +23,12 @@ exports.getGenreID = async function(req, res) {
     
     User.find({_id: userID}, (err, user) => {       
         let genresID = user[0].genresID;
-        
-        Genre.find({_id: {$in: genresID}, genre: {$regex: genreName}}, (err, us) => {})
-            .then(genres => {
-                res.json({genres})
-            })
-            .catch(err => console.log('Something went wrong with Genres',err));
+        if(user[0]) {
+            Genre.find({_id: {$in: genresID}, genre: {$regex: genreName}}, (err, us) => {})
+                .then(genres => {
+                    res.json({genres})
+                })
+                .catch(err => console.log('Something went wrong with Genres',err));
+        }
     });
 }
