@@ -10,15 +10,19 @@ exports.getAlbumsByGenre = async function(req, res) {
     const userID = req.query.id;
 
     let genre = await Genre.find({_id: genreID}, (err, genre) => {})
-    let genreAlbumsID = genre[0].albumsID;
+    if(genre[0]) {
+        let genreAlbumsID = genre[0].albumsID;
+        
     
-
-    let user =  await User.find({_id: userID}, (err, user) => {});
-    let userAlbumsID = user[0].albumsID;
-
-    let albumsID = genreAlbumsID.filter(id => userAlbumsID.includes(id));
-    
-    Album.find({_id: {$in: albumsID}}, (err, albums) => {
-        res.json(albums);            
-    }).catch(err => console.log(err));
+        let user =  await User.find({_id: userID}, (err, user) => {});
+        if(user[0]) {
+            let userAlbumsID = user[0].albumsID;
+        
+            let albumsID = genreAlbumsID.filter(id => userAlbumsID.includes(id));
+            
+            Album.find({_id: {$in: albumsID}}, (err, albums) => {
+                res.json(albums);            
+            }).catch(err => console.log(err));
+        }
+    }
 }
