@@ -80,7 +80,12 @@ exports.fillByGenre = async function(req, res) {
     })
 
     const userID = req.query.id;
+
+    console.log("userID: " + userID);
+    
     const albums = await response.body.items;
+
+    console.log("albums: " + albums);
     
     for(const album of albums) {
         const newArtist = await getArtist(album, userID);
