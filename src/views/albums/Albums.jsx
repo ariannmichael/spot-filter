@@ -29,9 +29,7 @@ export default class Albums extends Component {
     async componentDidMount() {
         if(this.state.id) {
             let i = 0;
-            while( i < 5 && this.state.genres.length === 0) {
-                console.log(i);
-                
+            while(i < 5) {
                 await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                     //axios get genres
                     axios.get(process.env.REACT_APP_GENRE + this.state.id)
@@ -40,7 +38,9 @@ export default class Albums extends Component {
                             this.setState({loading: false});
                         });
                 })            
-                i++;
+                if(this.state.genres.length !== 0) {
+                    i++;
+                }
             }
         }
     }
@@ -50,7 +50,7 @@ export default class Albums extends Component {
             this.setState({loading: true});
 
             let i = 0;
-            while( i < 5 && this.state.genres.length === 0) {
+            while(i < 5) {
                 await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                     //axios get genres
                     axios.get(process.env.REACT_APP_GENRE + this.state.id)
@@ -59,7 +59,9 @@ export default class Albums extends Component {
                             this.setState({loading: false});
                         });
                 }) 
-                i++;          
+                if(this.state.genres.length !== 0) {
+                    i++;
+                }       
             }
         }
     }
