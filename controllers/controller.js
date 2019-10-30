@@ -74,33 +74,37 @@ exports.getDisplayName = async function(req, res) {
 }
 
 exports.fillByGenre = async function(req, res) {    
-    const response = await spotifyApi.getMySavedAlbums({
+    let response;
+    while(!response) {
+        response = await getMySavedAlbums();
+    }
+
+    if(response) {
+        const userID = req.query.id;
+        const albums = await response.body.items;
+        
+        for(const album of albums) {
+            const newArtist = await getArtist(album, userID);
+            
+            if(newArtist) {
+                const genres = newArtist.genres;
+                const newAlbum = await saveAlbum(album, genres, userID);
+                for(const genre of genres) {
+                    await saveGenre(genre, newAlbum._id, newArtist._id, userID)
+                }   
+            }
+        }
+        
+        OFF_SET_ALBUMS += LIMIT_ALBUMS;
+    }
+    return res.status(200).send({message:"Albums filled with success"});
+}
+
+async function getMySavedAlbums() {
+    return await spotifyApi.getMySavedAlbums({
         limit: LIMIT_ALBUMS,
         offset: OFF_SET_ALBUMS
     })
-
-    const userID = req.query.id;
-
-    console.log("userID: " + userID);
-    
-    const albums = await response.body.items;
-
-    console.log("albums: " + albums);
-    
-    for(const album of albums) {
-        const newArtist = await getArtist(album, userID);
-        
-        if(newArtist) {
-            const genres = newArtist.genres;
-            const newAlbum = await saveAlbum(album, genres, userID);
-            for(const genre of genres) {
-                await saveGenre(genre, newAlbum._id, newArtist._id, userID)
-            }   
-        }
-    }
-    
-    OFF_SET_ALBUMS += LIMIT_ALBUMS;
-    return res.status(200).send({message:"Albums filled with success"});
 }
 
 
