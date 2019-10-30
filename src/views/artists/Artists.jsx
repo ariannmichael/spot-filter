@@ -27,8 +27,7 @@ export default class Artists extends Component {
     }
 
     async componentDidMount() { 
-        let i = 0;
-        while(i < 5) {
+        for(let i = 0; i < 5; i++) {
             axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                 //axios get genres
                 axios.get(process.env.REACT_APP_GENRE + this.state.id)
@@ -37,10 +36,6 @@ export default class Artists extends Component {
                         this.setState({loading: false});
                     });
             })
-
-            if(this.state.genres.length !== 0) {
-                i++;
-            }
         }
     }
 
@@ -48,8 +43,7 @@ export default class Artists extends Component {
         if(this.props !== prevProps) {
             this.setState({loading: true});
 
-            let i = 0;
-            while(i < 5) {
+            for(let i = 0; i < 5; i++) {
                 await axios.get(process.env.REACT_APP_FILL + this.state.id).then(res => {
                     //axios get genres
                     axios.get(process.env.REACT_APP_GENRE + this.state.id)
@@ -58,10 +52,6 @@ export default class Artists extends Component {
                             this.setState({loading: false});
                         });
                 })
-
-                if(this.state.genres.length !== 0) {
-                    i++;
-                }
             }
         }
     }
