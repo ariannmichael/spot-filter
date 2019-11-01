@@ -75,8 +75,10 @@ exports.getDisplayName = async function(req, res) {
 
 exports.fillByGenre = async function(req, res) {    
     let response;
-    while(!response) {
+    while(!response && !_.get(response, 'body.items')) {
         response = await getMySavedAlbums();
+        console.log(_.get(response, 'body.items'));
+        
     }
 
     if(response) {
